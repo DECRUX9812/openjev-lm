@@ -26,10 +26,15 @@ cd ~/Code/openjev && git push    # commit 424198d
 
 ```bash
 cd ~/Code/openjev-lm
-export HF_TOKEN="$(cat ~/.hermes/.hf_token)"   # shell only
-python hf/upload_model.py     --user DECRUX9812   # adapter + model card
-python hf/upload_dataset.py   --user DECRUX9812   # 2,591-row Jev-labelled corpus
+export HF_TOKEN="$(cat ~/.hermes/.hf_token)"          # shell only; never committed
+python hf/upload_model.py   --repo-id DECRUX9812/openjev-0.5b          --dry-run   # verify plan
+python hf/upload_model.py   --repo-id DECRUX9812/openjev-0.5b          --go
+python hf/upload_dataset.py --repo-id DECRUX9812/openjev-jev-labelled  --dry-run   # verify plan
+python hf/upload_dataset.py --repo-id DECRUX9812/openjev-jev-labelled  --go
 ```
+
+Both dry runs are already verified locally: the model plan stages 3/3 files and the adapter's
+sha256 matches the pinned source hash; the dataset plan stages 4/4 files (2,591 + 286 + 70 rows).
 
 Verify the model page renders, the card frontmatter parses, and the adapter downloads.
 
