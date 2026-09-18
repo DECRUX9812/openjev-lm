@@ -10,7 +10,8 @@ auditor, and every receipt.
 
 The **classifier arm** (frozen `bge-small` + small heads, 3 MB, 6 ms/posting, 99.39% agreement with Jev
 on a 2,631-posting production stream) lives at **[DECRUX9812/openjev](https://github.com/DECRUX9812/openjev)**.
-Both are MIT. The paper covering both: [`paper/openjev-paper.pdf`](paper/openjev-paper.pdf).
+Both are MIT. The paper covering both: [`paper/openjev-paper.pdf`](paper/openjev-paper.pdf) —
+launch page with figures and the full thread: [decrux9812.github.io/openjev-lm](https://decrux9812.github.io/openjev-lm/).
 
 ## The numbers (all on the same 70 hand-labelled postings)
 
@@ -44,7 +45,8 @@ python openjev/eval_likelihood.py --run runs/run-final --data data/eval_gold.jso
 python openjev/verify_corpus.py --data data/train_jev.jsonl --gold data/eval_gold.jsonl
 ```
 
-Adapter: [`huggingface.co/DECRUX9812/openjev-0.5b`](https://huggingface.co/DECRUX9812/openjev-0.5b)
+Adapter: ships in this repo at `runs/run-final/adapter.pt` (25 MB, sha256 `e49b717438fa54ea…`);
+Hugging Face mirror `DECRUX9812/openjev-0.5b` (upload pending).
 (mirrored here as a release). Corpus: [`data/train_jev.jsonl`](data/train_jev.jsonl) (2,591 rows).
 
 ## What's in the box
