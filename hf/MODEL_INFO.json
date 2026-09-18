@@ -1,0 +1,75 @@
+{
+  "artifact": "open-Jev 0.5B \u2014 LoRA adapter for Qwen2.5-0.5B-Instruct (job-posting decision task)",
+  "file": "adapter.pt",
+  "sha256": "e49b717438fa54ea2bf03dd102ea7229045abf9e514db17b0ef5a93aefa027fe",
+  "format": "torch.save zip checkpoint (PyTorch pickle); dict keys: format=2, lora, opt, step",
+  "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "lora": {
+    "rank": 16,
+    "alpha": 32,
+    "scale": 2.0,
+    "dropout_train": 0.05,
+    "dropout_inference": 0.0,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "wrapped_modules": 96,
+    "tensors": 192,
+    "trainable_params": 2162688,
+    "base_params_frozen": true
+  },
+  "training": {
+    "run": "run-final",
+    "seed": 7,
+    "dataset": "decrux9812/openjev-jev-labelled",
+    "train_rows": 2591,
+    "train_file": "data/train_jev.jsonl",
+    "steps": 400,
+    "batch": 6,
+    "max_len": 192,
+    "lr": 0.00015,
+    "schedule": "OneCycleLR (max_lr=1.5e-4, pct_start=0.05, cos)",
+    "loss": {
+      "first": 0.6792,
+      "final": 0.0468,
+      "mean_last10": 0.0253
+    },
+    "wall_min": 89.3,
+    "chunks": 3,
+    "host": "6 vCPU CPU-only (no CUDA)"
+  },
+  "evaluation": {
+    "gold_rows": 70,
+    "bucket_correct": 65,
+    "bucket_accuracy": 0.9286,
+    "per_class_recall": {
+      "service_lead": "1/2",
+      "staff_role": "12/14",
+      "generic_job": "52/54"
+    },
+    "mean_bucket_confidence": 0.945,
+    "harness_a": "eval_openjev.py (parallel constrained decoding)",
+    "harness_b": "eval_likelihood.py (staged whole-answer likelihood)",
+    "cross_harness": "both 92.9% (65/70), row-for-row bucket agreement"
+  },
+  "reference_points": {
+    "jev_hosted_bucket_accuracy": 0.9714,
+    "jev_hosted_detail": "68/70 on the same gold rows",
+    "untrained_qwen2_5_0_5b_instruct": 0.7286,
+    "stock_qwen2_5_1_5b_plus_published_decoder": 0.771
+  },
+  "provenance": {
+    "author": "Ritesh Patel (GitHub DECRUX9812)",
+    "license": "mit",
+    "note": "Independent workalike. Trained only on input/output pairs obtained by calling the hosted Jev API; no Jev weights or internals used; no affiliation with TypeSafe.",
+    "receipts": [
+      "runs/FACTS.json",
+      "runs/VERIFY.md",
+      "runs/eval_A_run-final.json",
+      "runs/eval_B_run-final.json"
+    ]
+  }
+}

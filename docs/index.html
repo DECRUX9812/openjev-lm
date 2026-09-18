@@ -6,21 +6,26 @@
 <title>open-Jev — 92.9% of a hosted decision model's judgment, 0.5B params, one night, no GPU</title>
 <meta name="description" content="We measured the viral Jev reproduction (77.1% — the majority-class prior), then trained two open, local, zero-cost reproductions of the same judgment. Full paper, weights, corpora, receipts.">
 <style>
-  :root { --bg:#0c0e12; --ink:#e8e6e1; --dim:#9aa0a6; --line:#23262d; --acc:#35d39a; --card:#14171d; }
+  :root { --bg:#0c0e12; --ink:#e8e6e1; --dim:#a9b0b8; --line:#23262d; --acc:#35d39a; --card:#14171d; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--ink);
          font:17px/1.65 "Inter","Helvetica Neue",Arial,sans-serif; }
   .wrap { max-width:820px; margin:0 auto; padding:56px 22px 90px; }
   .brand { color:var(--acc); font-weight:650; letter-spacing:.2px; }
-  h1 { font-size:clamp(30px,4.6vw,44px); line-height:1.14; margin:26px 0 14px; font-weight:680; letter-spacing:-.4px; }
+  h1 { font-size:clamp(28px,4.2vw,40px); line-height:1.16; margin:26px 0 10px; font-weight:680; letter-spacing:-.4px; }
+  h1 .spec { display:block; font-size:.52em; font-weight:520; color:var(--dim); letter-spacing:0; margin-top:8px; }
   .sub { color:var(--dim); font-size:19px; margin:0 0 34px; }
   h2 { font-size:22px; margin:52px 0 12px; font-weight:640; letter-spacing:-.2px; }
   p { margin:0 0 18px; }
   a { color:var(--acc); text-decoration:none; }
   a:hover { text-decoration:underline; }
   hr { border:0; border-top:1px solid var(--line); margin:44px 0; }
-  .hero-nums { display:flex; gap:26px; flex-wrap:wrap; margin:30px 0 8px; }
-  .num { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 20px; min-width:150px; }
+  .hero-nums { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:28px 0 18px; }
+  .num { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 17px; }
+  .cta { display:flex; gap:12px; flex-wrap:wrap; margin:4px 0 8px; }
+  .cta a { background:var(--acc); color:#08110d; font-weight:640; border-radius:10px; padding:9px 16px; }
+  .cta a.ghost { background:transparent; color:var(--ink); border:1px solid var(--line); }
+  @media (max-width:700px){ .hero-nums{grid-template-columns:repeat(2,1fr);} }
   .num b { display:block; font-size:30px; letter-spacing:-.5px; }
   .num span { color:var(--dim); font-size:13.5px; }
   figure { margin:30px 0; }
@@ -44,7 +49,7 @@
 <div class="wrap">
 
 <div class="brand">open-Jev</div>
-<h1>92.9% of a hosted decision model's judgment.<br>0.5B parameters. One night. No GPU.</h1>
+<h1>92.9% of a hosted model's judgment.<span class="spec">0.5B parameters · one night · no GPU.</span></h1>
 <p class="sub">We measured the viral "Jev reproduction" on a hand-labelled benchmark: 77.1% — which is exactly the majority-class prior of that benchmark. So we trained the real thing, in the open, and published everything: paper, weights, corpora, harnesses, negative results, receipts.</p>
 
 <div class="hero-nums">
@@ -52,6 +57,12 @@
   <div class="num"><b>94.3%</b><span>open-Jev classifier (3&nbsp;MB, 6&nbsp;ms)</span></div>
   <div class="num"><b>92.9%</b><span>open-Jev LM (0.5B + LoRA)</span></div>
   <div class="num"><b>77.1%</b><span>viral repro = class prior</span></div>
+</div>
+
+<div class="cta">
+  <a href="paper/openjev-paper.pdf">Read the paper (PDF)</a>
+  <a class="ghost" href="https://github.com/DECRUX9812/openjev-lm">Repo</a>
+  <a class="ghost" href="https://github.com/DECRUX9812/openjev">Classifier arm</a>
 </div>
 
 <h2>What happened</h2>

@@ -321,7 +321,7 @@ def fig3_pipeline() -> str:
 
     # --- footer -------------------------------------------------------
     s.append(f'<line x1="{XL}" y1="430" x2="{XR}" y2="430" stroke="{GRID}" stroke-width="1"/>')
-    s.append(text(600, 464, "both trained on Jev's own API answers · both run offline "
+    s.append(text(600, 464, "both trained on Jev’s own API answers · both run offline "
                             "on CPU · $0/call", 14, INK, "600", anchor="middle"))
     s.append("</svg>\n")
     return "".join(s)
@@ -330,7 +330,7 @@ def fig3_pipeline() -> str:
 # ---------------------------------------------------------------- cards
 def card_chrome(W, H):
     out = [f'<rect x="0" y="0" width="{W}" height="{H}" fill="{C_BG}"/>']
-    out.append(text(88, 78, "open-Jev", 24, C_ACCENT, "700", ls="-0.3"))
+    out.append(text(88, 80, "open-Jev", 26, C_ACCENT, "700", ls="-0.3"))
     out.append(f'<line x1="88" y1="118" x2="{W - 88}" y2="118" stroke="{C_RULE}" stroke-width="1"/>')
     return out
 
@@ -341,11 +341,11 @@ def card1() -> str:
                   "Dark card: the viral Jev reproduction scores 77.1%, exactly the "
                   "majority-class prior of 54 in 70.")]
     s += card_chrome(W, H)
-    s.append(rich_text(88, 306,
+    s.append(rich_text(88, 322,
                        [("The viral Jev repro: ", C_TEXT, None),
                         ("77.1%", C_ACCENT, None)],
-                       size=56, weight="700", ls="-0.8"))
-    s.append(text(88, 384, "exactly the majority-class prior (54/70)", 30, C_TEXT, "400",
+                       size=60, weight="700", ls="-0.8"))
+    s.append(text(88, 404, "exactly the majority-class prior (54/70)", 32, C_TEXT, "400",
                   opacity=0.78))
     s.append(f'<line x1="88" y1="548" x2="{W - 88}" y2="548" stroke="{C_RULE}" stroke-width="1"/>')
     s.append(rich_text(88, 600,
@@ -362,25 +362,26 @@ def card1() -> str:
 def card2() -> str:
     W, H = 1200, 675
     s = [svg_open(W, H, "open-Jev card 2",
-                  "Dark card: a 0.5B base model plus a 2.16M parameter LoRA adapter, "
-                  "400 steps, 89 minutes, no GPU, reaching 92.9% of Jev's judgment.")]
+                  "Dark card. Headline: 0.5B + 2.16M LoRA · 400 steps · 89 min · no GPU. "
+                  "Subline: 92.9% of Jev’s judgment, reproduced locally, $0/call. "
+                  "The headline wraps after '400 steps'.")]
     s += card_chrome(W, H)
-    s.append(rich_text(88, 290,
+    s.append(rich_text(88, 274,
                        [("0.5B + ", C_TEXT, None),
                         ("2.16M LoRA", C_ACCENT, None),
-                        (" · 400 steps ·", C_TEXT, None)],
-                       size=56, weight="700", ls="-0.8"))
-    s.append(rich_text(88, 364,
+                        (" · 400 steps", C_TEXT, None)],
+                       size=60, weight="700", ls="-0.8"))
+    s.append(rich_text(88, 358,
                        [("89 min", C_ACCENT, None),
                         (" · no GPU", C_TEXT, None)],
-                       size=56, weight="700", ls="-0.8"))
+                       size=60, weight="700", ls="-0.8"))
     s.append(rich_text(88, 446,
                        [("92.9%", C_ACCENT, None),
-                        (" of Jev's judgment, reproduced locally, $0/call", C_TEXT, 0.78)],
+                        (" of Jev’s judgment, reproduced locally, $0/call", C_TEXT, 0.78)],
                        size=30, weight="400"))
     s.append(f'<line x1="88" y1="548" x2="{W - 88}" y2="548" stroke="{C_RULE}" stroke-width="1"/>')
     s.append(rich_text(88, 600,
-                       [("trained on Jev's own API answers · MIT · "
+                       [("trained on Jev’s own API answers · MIT · "
                          "github.com/DECRUX9812/openjev", C_TEXT, 0.62)],
                        size=20, weight="400"))
     s.append("</svg>\n")
