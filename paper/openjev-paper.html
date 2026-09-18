@@ -217,7 +217,8 @@ Code, weights, corpora and receipts: <code>github.com/DECRUX9812/openjev</code> 
 </tr>
 </tbody>
 </table>
-<p>Two independent implementations returning identical buckets on all 70 rows is the point of running two: the headline does not depend on one implementation's candidate handling — nor on the last 14 training steps, since A scored step 386 and B step 400. Method B also contains a third variant — scoring 12 complete answer strings jointly (<code>enum12</code>) — whose harness returned <code>null</code> for every row before its run deadline. <strong>It is reported as not run, and not cited.</strong> One number we do not have is better than one number we cannot defend.</p>
+<p>Two independent implementations returning identical buckets on all 70 rows is the point of running two: the headline does not depend on one implementation's candidate handling — nor on the last 14 training steps, since A scored step 386 and B step 400.</p>
+<p><strong>Unseen traffic.</strong> The gold rows were held out of training, but they were chosen before the model existed. As a second check, the finished adapter was run on 106 postings that arrived <em>after</em> the corpus was built, in the same prompt format. It agrees with hosted Jev on <strong>104/106 = 98.1%</strong> of them. Both misses are instructive and published: a <em>Mobile Security Officer</em> posting where Jev says <code>generic_job</code> and the model says <code>staff_role</code> at 0.62 confidence, and a <em>Mechanical Designer 2</em> posting where the model is confidently wrong (0.996) where Jev says <code>staff_role</code>. Receipt: <code>verify/live/fresh_106.jsonl</code>. Method B also contains a third variant — scoring 12 complete answer strings jointly (<code>enum12</code>) — whose harness returned <code>null</code> for every row before its run deadline. <strong>It is reported as not run, and not cited.</strong> One number we do not have is better than one number we cannot defend.</p>
 <h3>4.6 Where the LM arm's four errors are</h3>
 <p>The LM arm's misses are one <code>service_lead</code> read as <code>generic_job</code>, two <code>staff_role</code>s read as <code>generic_job</code>, and one <code>generic_job</code> read as <code>staff_role</code>. For context, the classifier arm's four misses are three of the same <code>staff_role</code>-as-generic shape and the same <code>service_lead</code> row. That row — a small business posting for a solo web developer — is the one row in 70 where both open models fail and Jev succeeds. It is, of course, exactly the row a lead-generation pipeline exists to catch.</p>
 <h2>5. The classifier arm: 3 MB, 6 milliseconds, 99.39% agreement</h2>
@@ -318,7 +319,7 @@ Code, weights, corpora and receipts: <code>github.com/DECRUX9812/openjev</code> 
 </tr>
 <tr>
 <td>LM adapter (25 MB)</td>
-<td><code>huggingface.co/{HF_USER}/openjev-0.5b</code></td>
+<td>in-repo <code>runs/run-final/adapter.pt</code> (HF mirror <code>DECRUX9812/openjev-0.5b</code>, upload pending)</td>
 <td><code>adapter.pt</code> sha256 (first 16) <code>e49b717438fa54ea</code></td>
 </tr>
 <tr>
@@ -337,17 +338,24 @@ Code, weights, corpora and receipts: <code>github.com/DECRUX9812/openjev</code> 
 <td><code>eval_A_run-final.json</code>, <code>eval_B_run-final.json</code>, <code>eval_baseline.json</code>, <code>eval_lora_final_420.json</code>, <code>eval_snap0405.json</code></td>
 </tr>
 <tr>
-<td>corpus audit</td>
-<td>both repos</td>
-<td><code>runs/VERIFY.md</code> (13/13), <code>runs/AUDIT-DATA.md</code> (the 6-row leak, both corpora)</td>
+<td>per-row prediction receipts</td>
+<td><code>openjev-lm</code> → <code>verify/predictions/</code></td>
+<td>one JSONL per arm, joinable on posting id</td>
 </tr>
 <tr>
-<td>the numbers page</td>
-<td>both repos</td>
-<td><code>runs/FACTS.md</code> — generated from the raw run files, the single source every claim in this paper is checked against</td>
+<td>unseen-traffic receipts</td>
+<td><code>openjev-lm</code> → <code>verify/live/</code></td>
+<td>106 fresh + 107 boundary postings, hosted vs local side by side</td>
 </tr>
 </tbody>
 </table>
+<p><strong>One-command check.</strong> Every headline number in this paper is re-derivable from the published
+per-row receipts without installing anything: <code>python3 verify/score.py --self-test</code> prints a
+PASS/FAIL line for each claim (eleven checks, including that the two harnesses agree row-for-row).
+The repository runs the same check in CI on every push, so the badge on the README is a live
+verification, not a screenshot.
+| corpus audit | both repos | <code>runs/VERIFY.md</code> (13/13), <code>runs/AUDIT-DATA.md</code> (the 6-row leak, both corpora) |
+| the numbers page | both repos | <code>runs/FACTS.md</code> — generated from the raw run files, the single source every claim in this paper is checked against |</p>
 <p>The quickstart is one page: environment (Python 3.12, torch CPU, transformers), download the base model, train (<code>run_training.sh run-final 400 25 6</code>), evaluate (<code>eval_openjev.py</code> → expect 65/70). Total compute to reproduce from scratch: under two hours of a 6-vCPU box and about five cents of API labelling.</p>
 <h2>10. Conclusion</h2>
 <p>A viral artifact claimed that a decoding trick on a stock 1.5B model reproduces Jev. Measured: 77.1%, which is the majority-class prior of the benchmark it was measured on, with zero recall on the rare class that motivates the whole task. So we did the actual work overnight: 2.16M LoRA parameters on a 0.5B model trained on 2,591 rows of Jev's own answers, 89 minutes on six CPU cores, reaching <strong>92.9%</strong> of Jev's judgment on a hand-labelled set where Jev scores 97.1%; and a 3 MB frozen-encoder classifier reaching <strong>94.3%</strong> with <strong>99.39%</strong> agreement with Jev across a 2,631-posting production stream at 6 ms per call. Both are MIT, with corpora, harnesses, audit scripts, and negative results attached.</p>

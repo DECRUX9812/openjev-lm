@@ -108,7 +108,9 @@ Results:
 | `service_lead` / `staff_role` / `generic_job` recall | 1/2 / 12/14 / 52/54 | identical on all 70 rows |
 | mean bucket confidence | **0.945** (Jev: 0.956; stock 1.5B: 0.610) | — |
 
-Two independent implementations returning identical buckets on all 70 rows is the point of running two: the headline does not depend on one implementation's candidate handling — nor on the last 14 training steps, since A scored step 386 and B step 400. Method B also contains a third variant — scoring 12 complete answer strings jointly (`enum12`) — whose harness returned `null` for every row before its run deadline. **It is reported as not run, and not cited.** One number we do not have is better than one number we cannot defend.
+Two independent implementations returning identical buckets on all 70 rows is the point of running two: the headline does not depend on one implementation's candidate handling — nor on the last 14 training steps, since A scored step 386 and B step 400.
+
+**Unseen traffic.** The gold rows were held out of training, but they were chosen before the model existed. As a second check, the finished adapter was run on 106 postings that arrived *after* the corpus was built, in the same prompt format. It agrees with hosted Jev on **104/106 = 98.1%** of them. Both misses are instructive and published: a *Mobile Security Officer* posting where Jev says `generic_job` and the model says `staff_role` at 0.62 confidence, and a *Mechanical Designer 2* posting where the model is confidently wrong (0.996) where Jev says `staff_role`. Receipt: `verify/live/fresh_106.jsonl`. Method B also contains a third variant — scoring 12 complete answer strings jointly (`enum12`) — whose harness returned `null` for every row before its run deadline. **It is reported as not run, and not cited.** One number we do not have is better than one number we cannot defend.
 
 ### 4.6 Where the LM arm's four errors are
 
@@ -173,10 +175,18 @@ Everything needed to re-derive every number above:
 | artifact | where | receipt |
 |---|---|---|
 | LM arm code + corpus | `github.com/DECRUX9812/openjev-lm` | `openjev/{train_v2.py,eval_openjev.py,eval_likelihood.py,verify_corpus.py}` |
-| LM adapter (25 MB) | `huggingface.co/{HF_USER}/openjev-0.5b` | `adapter.pt` sha256 (first 16) `e49b717438fa54ea` |
+| LM adapter (25 MB) | in-repo `runs/run-final/adapter.pt` (HF mirror `DECRUX9812/openjev-0.5b`, upload pending) | `adapter.pt` sha256 (first 16) `e49b717438fa54ea` |
 | corpus | same repo + HF datasets | `train_jev.jsonl` sha256 `77b33e573c1b46fa` (2,591 rows), `eval_gold.jsonl` sha256 `55cf245e916f6fd8` (70 rows) |
 | classifier arm + weights | `github.com/DECRUX9812/openjev` | weights sha256 `bucket_head.npz 6ed660ee9e687d35`, `aux_heads.npz adfe0f29da5801aa` |
 | all eval outputs | both repos, `runs/` | `eval_A_run-final.json`, `eval_B_run-final.json`, `eval_baseline.json`, `eval_lora_final_420.json`, `eval_snap0405.json` |
+| per-row prediction receipts | `openjev-lm` → `verify/predictions/` | one JSONL per arm, joinable on posting id |
+| unseen-traffic receipts | `openjev-lm` → `verify/live/` | 106 fresh + 107 boundary postings, hosted vs local side by side |
+
+**One-command check.** Every headline number in this paper is re-derivable from the published
+per-row receipts without installing anything: `python3 verify/score.py --self-test` prints a
+PASS/FAIL line for each claim (eleven checks, including that the two harnesses agree row-for-row).
+The repository runs the same check in CI on every push, so the badge on the README is a live
+verification, not a screenshot.
 | corpus audit | both repos | `runs/VERIFY.md` (13/13), `runs/AUDIT-DATA.md` (the 6-row leak, both corpora) |
 | the numbers page | both repos | `runs/FACTS.md` — generated from the raw run files, the single source every claim in this paper is checked against |
 

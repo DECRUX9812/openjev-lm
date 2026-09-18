@@ -66,6 +66,7 @@ CHECKS = [
     ("harness A vs harness B: identical buckets", "agree", ("lm_A_step386.jsonl", "lm_B_step400.jsonl"), (70, 70)),
     ("live: classifier vs hosted Jev, 106 fresh postings", "live", ("fresh_106.jsonl", "classifier_pred", "hosted_bucket"), (106, 106)),
     ("live: classifier vs hosted Jev, 107 boundary postings", "live", ("boundary_107.jsonl", "classifier_pred", "hosted_bucket"), (104, 107)),
+    ("live: LM vs hosted Jev, 106 fresh postings", "live", ("fresh_106.jsonl", "lm_pred", "hosted_bucket"), (104, 106)),
 ]
 
 

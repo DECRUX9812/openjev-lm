@@ -114,6 +114,18 @@ def live_rows(src, dst, pred_key="classifier_pred"):
 
 
 live_rows("ab_rows.json", "fresh_106.jsonl")
+
+# LM arm's decisions on the same 106 unseen postings (receipt from the fresh run)
+lm_fresh = LIVE / "lm_fresh_106.json"
+if lm_fresh.exists():
+    lm = {str(r["id"]): r for r in json.loads(lm_fresh.read_text())["rows"]}
+    rows = [json.loads(l) for l in (LIVE / "fresh_106.jsonl").read_text().splitlines() if l.strip()]
+    for row in rows:
+        hit = lm.get(str(row["id"]))
+        if hit:
+            row["lm_pred"] = hit.get("pred_bucket")
+            row["lm_conf"] = hit.get("bucket_conf")
+    w(LIVE / "fresh_106.jsonl", rows)
 live_rows("hard_rows.json", "boundary_107.jsonl")
 
 # --- dark sweep summary (2,844-row archive re-analysis) --------------------

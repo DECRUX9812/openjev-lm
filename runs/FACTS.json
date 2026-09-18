@@ -26,6 +26,14 @@
   "staff_role_recall": "3/14",
   "bucket_agreement_with_jev": 0.786,
   "mean_bucket_confidence": 0.61,
+  "live_traffic": {
+   "lm_vs_hosted_106_unseen": {
+    "n": 106,
+    "agree": 104,
+    "pct": 98.1
+   },
+   "note": "106 postings that arrived after the training corpus was built; gold column = Jev's own hosted answer (agreement test)"
+  },
   "community_benchmarks": {
    "jev_on_a_laptop_agreement_pct": 73.8,
    "lfm2_5_rlcd_decoding_only_pct": 60.0,
