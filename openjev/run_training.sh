@@ -20,7 +20,8 @@ set -u
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$HERE")"
-PY="$ROOT/Qwen-2.5-1B-RLCD/.venv/bin/python"
+# interpreter: override with OPENJEV_PY=/path/to/python (needs torch + transformers, CPU is fine)
+PY="${OPENJEV_PY:-python3}"
 RUN="${1:?run-name required}"
 TOTAL="${2:?target total steps required}"
 CHUNK="${3:-25}"          # minutes per chunk (clean checkpoint + exit)

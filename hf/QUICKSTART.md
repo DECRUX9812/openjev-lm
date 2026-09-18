@@ -56,7 +56,7 @@ TRAIN_FILE=data/train_jev.jsonl openjev/run_training.sh run-final 400 25 6
 ```
 
 Two things to fix before using the supervisor on another machine: it resolves its interpreter as
-`$ROOT/Qwen-2.5-1B-RLCD/.venv/bin/python` (edit `PY=` to point at your venv), and it `cd`s to the
+your interpreter via `OPENJEV_PY=/path/to/venv/bin/python` (defaults to `python3`), and it `cd`s to the
 repo root before invoking the trainer, so `TRAIN_FILE` must be repo-root-relative
 (`data/train_jev.jsonl`).
 

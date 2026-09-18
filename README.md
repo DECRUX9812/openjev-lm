@@ -22,8 +22,9 @@ Both are MIT. The paper covering both: [`paper/openjev-paper.pdf`](paper/openjev
 | viral "Jev repro" | 54/70 = 77.1% | 0/2 · 3/14 · 51/54 | = the majority-class prior (54/70) |
 | untrained 0.5B base | 51/70 = 72.9% | 0/2 · 0/14 · 51/54 | below the prior |
 
-Two independently written harnesses score this adapter; both land on **65/70 = 92.9%** and agree on
-every row. Mean bucket confidence: **0.945** (Jev 0.956, the viral artifact 0.610).
+Two independently written harnesses score this run — the first against the step-386 snapshot, the
+second against the released step-400 adapter — and both land on **65/70 = 92.9%** with identical
+buckets on all 70 rows. Mean bucket confidence: **0.945** (Jev 0.956, the viral artifact 0.610).
 
 ## Quickstart
 

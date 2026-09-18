@@ -14,8 +14,9 @@ score — each with a probability — over a job posting.
 | viral "reproduction" (stock 1.5B + constrained decoding) | 54/70 = 77.1% | 3/14 | 0/2 | 0.610 |
 | untrained 0.5B base | 51/70 = 72.9% | 0/14 | 0/2 | — |
 
-Two independently written harnesses (`eval_openjev.py`, `eval_likelihood.py`) score the same
-adapter at 92.9% and agree on every row's bucket.
+Two independently written harnesses (`eval_openjev.py` on the step-386 snapshot,
+`eval_likelihood.py` on the released step-400 adapter) both score 92.9% with identical buckets on all
+70 rows.
 
 **Training.** 2,591 postings whose targets are Jev's own API answers, stored byte-for-byte and
 re-verified (`verify_corpus.py`: 13/13 checks — no id leaks, no (title, employer) pair leaks,

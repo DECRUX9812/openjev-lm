@@ -26,6 +26,11 @@
   "staff_role_recall": "3/14",
   "bucket_agreement_with_jev": 0.786,
   "mean_bucket_confidence": 0.61,
+  "community_benchmarks": {
+   "jev_on_a_laptop_agreement_pct": 73.8,
+   "lfm2_5_rlcd_decoding_only_pct": 60.0,
+   "source": "../REPORT.md tracker"
+  },
   "source": "../REPORT.md table"
  },
  "lm_arm": {
@@ -171,7 +176,7 @@
  },
  "eval_protocol": {
   "method_A": "eval_openjev.py \u2014 parallel constrained decoding, one batched forward per field, argmax over allowed candidates (full-string log-likelihood for multi-token labels)",
-  "method_B": "eval_likelihood.py \u2014 independent staged whole-candidate likelihood scoring",
+  "method_B": "eval_likelihood.py \u2014 independent staged whole-candidate likelihood scoring; harness A ran the step-386 snapshot, harness B the released step-400 adapter; identical buckets on all 70 rows",
   "cross_harness": "both methods land on 92.86% and agree row-for-row"
  }
 }

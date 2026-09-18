@@ -7,7 +7,7 @@ Code, weights, corpora and receipts: `github.com/DECRUX9812/openjev` (classifier
 
 ## Abstract
 
-A hosted model named Jev answers seven typed questions about a piece of text — a category, five booleans, and a 0–4 score — and its judgments are good enough that people build pipelines on them. In September 2026 an artifact claiming to "reproduce Jev" circulated widely; its weights amount to constrained decoding on a stock 1.5B model. We measured it on 70 hand-labelled rows: **54/70 = 77.1%** on the headline question, which is *exactly* the majority-class rate of the evaluation set (54/70 rows are the dominant class), with 0/2 recall on the commercially rarest class. It reproduced Jev's interface, not its judgment. So we trained real ones. Overnight, on a 6-vCPU CPU-only host with no GPU, a **Qwen2.5-0.5B-Instruct + LoRA (2,162,688 trainable parameters, 400 steps, 89 minutes)** trained on 2,591 rows whose targets are Jev's own API answers reaches **65/70 = 92.9%** on the same hand labels (Jev itself: 68/70 = 97.1%), with 12/14 recall on the class that matters most commercially and far better-calibrated confidence. A second, independent evaluation harness agrees on every row. Separately, a **3 MB frozen-encoder classifier** (bge-small + small heads, 12 seeds) reaches 66/70 = 94.3% and agrees with Jev on **99.39%** of a 2,631-posting production stream at **6 ms/posting, $0/call, offline, deterministically**. Both arms, both corpora, both harnesses and all negative results are published under MIT. We are explicit about the limits: a 70-row evaluation set, two rows of the rarest class, one seed for the LM, and labels produced by a hosted API whose answers are not perfectly deterministic. The point is not a benchmark win. The point is that judgment-as-a-service now has a local price of zero, and that changes which questions you are allowed to ask of data you already own.
+A hosted model named Jev answers seven typed questions about a piece of text — a category, five booleans, and a 0–4 score — and its judgments are good enough that people build pipelines on them. In September 2026 an artifact claiming to "reproduce Jev" circulated widely; its weights amount to constrained decoding on a stock 1.5B model. We measured it on 70 hand-labelled rows: **54/70 = 77.1%** on the headline question, which is *exactly* the majority-class rate of the evaluation set (54/70 rows are the dominant class), with 0/2 recall on the commercially rarest class. It reproduced Jev's interface, not its judgment. So we trained real ones. Overnight, on a 6-vCPU CPU-only host with no GPU, a **Qwen2.5-0.5B-Instruct + LoRA (2,162,688 trainable parameters, 400 steps, 89 minutes)** trained on 2,591 rows whose targets are Jev's own API answers reaches **65/70 = 92.9%** on the same hand labels (Jev itself: 68/70 = 97.1%), with 12/14 recall on the class that matters most commercially and far better-calibrated confidence. A second, independently written evaluation harness returns the same 65/70 and the same bucket on all 70 rows. Separately, a **3 MB frozen-encoder classifier** (bge-small + small heads, 12 seeds) reaches 66/70 = 94.3% and agrees with Jev on **99.39%** of a 2,631-posting production stream at **6 ms/posting, $0/call, offline, deterministically**. Both arms, both corpora, both harnesses and all negative results are published under MIT. We are explicit about the limits: a 70-row evaluation set, two rows of the rarest class, one seed for the LM, and labels produced by a hosted API whose answers are not perfectly deterministic. The point is not a benchmark win. The point is that judgment-as-a-service now has a local price of zero, and that changes which questions you are allowed to ask of data you already own.
 
 ---
 
@@ -94,7 +94,7 @@ An earlier feasibility estimate in the classifier arm's ledger said LoRA on this
 
 ### 4.5 Evaluation: two harnesses, on purpose
 
-Both harnesses score the same adapter on the same 70 rows and were written independently:
+Both harnesses were written independently and score the same 70 rows. Harness A ran against the step-386 snapshot (training was still finishing); harness B ran the released step-400 adapter. Their buckets are identical on all 70 rows:
 
 - **Method A — parallel constrained decoding** (`eval_openjev.py`): candidates for each field are scored in one batched forward pass; multi-token labels are ranked by full-string log-likelihood; argmax wins.
 - **Method B — staged whole-candidate likelihood scoring** (`eval_likelihood.py`): a separate implementation that scores complete candidate answers field by field, with its own ranking code.
@@ -105,10 +105,10 @@ Results:
 |---|---|---|
 | bucket accuracy vs gold | **65/70 = 92.9%** | **65/70 = 92.9%** |
 | bucket agreement with Jev's own answers | — | 95.7% |
-| `service_lead` / `staff_role` / `generic_job` recall | 1/2 / 12/14 / 52/54 | agrees row-for-row |
+| `service_lead` / `staff_role` / `generic_job` recall | 1/2 / 12/14 / 52/54 | identical on all 70 rows |
 | mean bucket confidence | **0.945** (Jev: 0.956; stock 1.5B: 0.610) | — |
 
-The two harnesses agreeing on every row is the point of running two: the headline does not depend on one implementation's candidate handling. Method B also contains a third variant — scoring 12 complete answer strings jointly (`enum12`) — whose harness returned `null` for every row before its run deadline. **It is reported as not run, and not cited.** One number we do not have is better than one number we cannot defend.
+Two independent implementations returning identical buckets on all 70 rows is the point of running two: the headline does not depend on one implementation's candidate handling — nor on the last 14 training steps, since A scored step 386 and B step 400. Method B also contains a third variant — scoring 12 complete answer strings jointly (`enum12`) — whose harness returned `null` for every row before its run deadline. **It is reported as not run, and not cited.** One number we do not have is better than one number we cannot defend.
 
 ### 4.6 Where the LM arm's four errors are
 

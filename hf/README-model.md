@@ -111,6 +111,10 @@ balance: `generic_job` 1,088 (42.0%), `staff_role` 958 (37.0%), `service_lead` 3
 against the classic failure modes and labelled by the API for $0.0425 of spend). 286 dev rows and
 the 70 hand-labelled gold rows ship with the dataset; the gold rows were never trained on.
 
+Training run: 400 steps, batch 6, `max_len` 192, lr 1.5e-4 (OneCycleLR, `pct_start` 0.05), seed 7,
+loss 0.6792 at step 1 → 0.0468 at step 400 (mean of the last 10: 0.0253), 89.3 minutes across
+three supervised chunks on a 6-vCPU CPU-only host.
+
 ## Limitations
 
 - **Single seed, single run.** This is one 400-step adapter, not a distribution over runs.

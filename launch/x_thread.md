@@ -55,11 +55,11 @@ Loss 0.679 → 0.047.
 *[card2.png]*
 
 **7/**
-Evaluation, because one harness is a rumour: two independently written scorers ran the same adapter on the same 70 rows.
+Evaluation, because one harness is a rumour: two independently written scorers (step-386 snapshot, then the released adapter).
 
-Both: 65/70 = 92.9%. They agree on every row.
+Both: 65/70 = 92.9%. Identical buckets on all 70 rows.
 
-Mean bucket confidence 0.945 (Jev: 0.956).
+Mean confidence 0.945 (Jev: 0.956).
 
 **8/**
 Per-class where it matters: staff_role 12/14, generic_job 52/54.
