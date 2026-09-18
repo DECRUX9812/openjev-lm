@@ -1,6 +1,12 @@
 # open-Jev — LM arm
 
+[![verify](https://github.com/DECRUX9812/openjev-lm/actions/workflows/verify.yml/badge.svg)](https://github.com/DECRUX9812/openjev-lm/actions/workflows/verify.yml)
+
 **A 0.5B model that reproduces a hosted decision model's judgment, trained overnight on a CPU, for $0.**
+
+**Don't take the table below on faith — re-derive every number in it with one command:**
+`python3 verify/score.py --self-test` (no installs, no torch) → `verify/README.md` for the
+row-level receipts behind each claim.
 
 Jev (TypeSafe) answers seven typed questions about a text: a category, five booleans, and a 0–4 fit score.
 This repo contains the **LM arm** of the open-Jev project: `Qwen2.5-0.5B-Instruct` + a LoRA adapter
