@@ -1,8 +1,17 @@
 # open-Jev — go-live checklist
 
-Everything is built and verified locally. Nothing has been published yet. Run these in order
-(≈15 minutes of clicking plus a couple of commands). Nothing here is irreversible except the
-public posts themselves.
+**Status 2026-09-18:** step 1 and 3 are **DONE** — the repos are public and Pages is live:
+`https://github.com/DECRUX9812/openjev-lm` · `https://decrux9812.github.io/openjev-lm/`.
+Remaining: HF upload (needs the token file), the X thread, HN/Reddit (those are your accounts).
+
+## 1. Publish the code — DONE
+
+- [x] LM arm pushed → https://github.com/DECRUX9812/openjev-lm (default branch `main`)
+- [x] classifier arm pushed → ledger correction `424198d` on `DECRUX9812/openjev`
+
+## 3. Pages — DONE
+
+- [x] `docs/` published, build status `built`, landing page + paper + figures all return 200.
 
 ## 0. Preconditions (once)
 
@@ -11,16 +20,6 @@ public posts themselves.
       saved to `~/.hermes/.hf_token` with `chmod 600` (file only — never paste it anywhere else).
 - [ ] Decide who posts the X thread: **you** (recommended — paste from `launch/x_thread.md`,
       upload the three images) or an API client if one is already configured.
-
-## 1. Publish the code (2 commands)
-
-```bash
-# LM arm (this repo)
-gh repo create DECRUX9812/openjev-lm --public --source="$HOME/Code/openjev-lm" --push
-
-# classifier arm — one local commit waiting (LoRA ledger correction)
-cd ~/Code/openjev && git push    # commit 424198d
-```
 
 ## 2. Hugging Face (3 commands)
 
