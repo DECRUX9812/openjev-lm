@@ -60,10 +60,36 @@ Adapter: ships in this repo at `runs/run-final/adapter.pt` (25 MB, sha256 `e49b7
 Hugging Face mirror `DECRUX9812/openjev-0.5b` (upload pending).
 (mirrored here as a release). Corpus: [`data/train_jev.jsonl`](data/train_jev.jsonl) (2,591 rows).
 
+## Serve + playground
+
+```bash
+# extra deps: fastapi, uvicorn
+python openjev/serve.py          # -> http://127.0.0.1:8009  (playground at /)
+```
+
+- `POST /v1/decide` `{title, employer, pay}` → typed answer: bucket + per-candidate
+  probabilities, five booleans with probabilities, fit 0–4, margins, latency, `cost_usd: 0`.
+- `POST /v1/systemone` — TypeSafe-shaped questions over arbitrary free text
+  (`noul`, `choice` with `name: desc` options, `score` with ordered levels), answered by
+  generic option-likelihood scoring — the model was never trained on these questions.
+- `GET /v1/models`, `GET /api/info` — model id, adapter step, fitted temperature.
+
+Probabilities come from `softmax(mean_logp / T)` over each field's candidates.
+`openjev/calibrate.py` fits the single temperature `T` on dev rows by NLL minimization
+(ternary search) and reports holdout ECE/NLL before vs after — port of the temperature
+scaling used in the kev prototype. Result is written to `runs/demo/calibration.json`
+and picked up by `serve.py` at boot:
+
+```bash
+python openjev/calibrate.py --adapter <adapter.pt> --fit data/dev_jev.jsonl --eval data/eval_gold.jsonl
+```
+
 ## What's in the box
 
 ```
-openjev/        code — dataset builder, trainer, two eval harnesses, corpus auditor, labelling tools
+openjev/        code — dataset builder, trainer, two eval harnesses, corpus auditor,
+                labelling tools, API server (serve.py), temperature calibration
+                (calibrate.py), playground UI (playground/)
 data/           train_jev.jsonl (2,591) · dev_jev.jsonl (286) · eval_gold.jsonl (70)
 runs/           every eval output, the corpus audit, the leak audit, FACTS.json + FACTS.md
 docs/           night-report.md — the full engineering log of the run
