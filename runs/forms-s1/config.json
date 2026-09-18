@@ -1,0 +1,106 @@
+{
+  "config": {
+    "context_tokens": 224,
+    "encoder": "tinyx",
+    "heads": 4,
+    "layers": 2,
+    "option_tokens": 96,
+    "rank": 128,
+    "width": 128
+  },
+  "format": "cua-s1",
+  "format_version": 1,
+  "metadata": {
+    "batch_size": 64,
+    "best_validation": {
+      "ece": 0.01921240915544331,
+      "examples": 16309,
+      "nll": 0.7442537265987865,
+      "per_action": {
+        "check": {
+          "acc": 0.9801587301587301,
+          "n": 504
+        },
+        "click": {
+          "acc": 0.8264984227129337,
+          "n": 634
+        },
+        "fill": {
+          "acc": 0.5938132408210466,
+          "n": 6918
+        },
+        "skip": {
+          "acc": 0.8663516297104084,
+          "n": 8253
+        }
+      },
+      "top1": 0.7527132034301758
+    },
+    "deterministic": true,
+    "epochs": 2,
+    "history": [
+      {
+        "epoch": 1,
+        "train_nll": 1.6828318439483643,
+        "validation": {
+          "ece": 0.05849846290584537,
+          "examples": 16309,
+          "nll": 1.2558841498319562,
+          "per_action": {
+            "check": {
+              "acc": 0.998015873015873,
+              "n": 504
+            },
+            "click": {
+              "acc": 0.028391167192429023,
+              "n": 634
+            },
+            "fill": {
+              "acc": 0.25065047701647875,
+              "n": 6918
+            },
+            "skip": {
+              "acc": 0.8944626196534593,
+              "n": 8253
+            }
+          },
+          "top1": 0.590900719165802
+        }
+      },
+      {
+        "epoch": 2,
+        "train_nll": 0.908787025642395,
+        "validation": {
+          "ece": 0.01921240915544331,
+          "examples": 16309,
+          "nll": 0.7442537265987865,
+          "per_action": {
+            "check": {
+              "acc": 0.9801587301587301,
+              "n": 504
+            },
+            "click": {
+              "acc": 0.8264984227129337,
+              "n": 634
+            },
+            "fill": {
+              "acc": 0.5938132408210466,
+              "n": 6918
+            },
+            "skip": {
+              "acc": 0.8663516297104084,
+              "n": 8253
+            }
+          },
+          "top1": 0.7527132034301758
+        }
+      }
+    ],
+    "learning_rate": 0.002,
+    "seed": 7,
+    "task": "form-specialist-choice-classification",
+    "warmup": 0.05,
+    "workers": 0
+  },
+  "state_signature": "78b35024ace12346a73dd6829a26727a80edf534e2ded2359e3ab2b0ea41b15a"
+}
