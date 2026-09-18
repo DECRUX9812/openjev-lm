@@ -12,14 +12,15 @@ Rules
 """
 from __future__ import annotations
 
-import argparse, json, random
+import argparse, json, os, random
 from collections import Counter
 from pathlib import Path
 
-ROOT = Path("/home/decrux/Code/jev-repro-test")
-LAB = Path("/home/decrux/Code/typesafe-lab")
+# This file is imported by tools that only need prompt_for/target_for (eval harnesses,
+# corpus verifier), so nothing here may touch the filesystem at import time.
+ROOT = Path(os.environ.get("OPENJEV_ROOT", Path(__file__).resolve().parent.parent))
+LAB = Path(os.environ.get("TYPESAFE_LAB", "/home/decrux/Code/typesafe-lab"))
 OUT = ROOT / "openjev" / "data"
-OUT.mkdir(parents=True, exist_ok=True)
 
 BOOLS = ["technical_need", "business_buyer", "small_firm_doable", "pay_stated", "evergreen_repost"]
 KEYS = "bucket(service_lead|staff_role|generic_job|junk) " + " ".join(BOOLS) + " fit(0-4)"
@@ -77,6 +78,7 @@ def synth_answers(row):
 
 
 def main():
+    OUT.mkdir(parents=True, exist_ok=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--synth", default=str(ROOT / "openjev" / "synth" / "data" / "jev_checked.jsonl"))
     ap.add_argument("--corpus", default=str(LAB / "runs" / "leads_corpus_full.json"))

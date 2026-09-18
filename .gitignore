@@ -8,3 +8,6 @@ runs/run-final/adapter_step*.pt
 runs/run-final/chunk*.log
 .ipynb_checkpoints/
 .DS_Store
+models/
+openjev/runs/
+runs/retrain-check.out
