@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import statistics
 import sys
 import time
@@ -28,10 +29,13 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-LAB = Path("/home/decrux/Code/typesafe-lab")
-DATA = HERE / "data"
-RUNS = HERE / "runs"
-DATA.mkdir(exist_ok=True)
+# The full audit joins the training corpus against the private typesafe-lab source files
+# (leads corpus + hand labels). Point TYPESAFE_LAB at that checkout; without it the script
+# fails fast with a clear message listing what is missing. All repo-local files default to
+# the shipped data/ directory; override with OPENJEV_DATA / OPENJEV_RUNS if yours differ.
+LAB = Path(os.environ.get("TYPESAFE_LAB", "/home/decrux/Code/typesafe-lab"))
+DATA = Path(os.environ.get("OPENJEV_DATA", ROOT / "data"))
+RUNS = Path(os.environ.get("OPENJEV_RUNS", ROOT / "runs"))
 RUNS.mkdir(exist_ok=True)
 
 sys.path.insert(0, str(HERE))
@@ -124,6 +128,15 @@ def pct(n, d):
 def main() -> int:
     t0 = time.time()
     VERIFY = RUNS / "VERIFY.json"
+
+    missing = [str(p) for p in (TRAIN_F, CORPUS_F, GOLD_F, EVAL_GOLD_F, REPORT_F)
+               if not p.exists()]
+    if missing:
+        print("cannot run the full audit — required inputs are missing:\n  "
+              + "\n  ".join(missing)
+              + "\nleads.gold.json / leads_corpus_full.json / corpus_jev_report.json live in "
+                "the typesafe-lab checkout; set TYPESAFE_LAB to its path.", flush=True)
+        return 2
 
     TRAIN = jlines(TRAIN_F)
     TRAIN_RAW = lines_of(TRAIN_F)
