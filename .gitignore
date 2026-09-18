@@ -1,0 +1,9 @@
+*.pyc
+__pycache__/
+.venv/
+*.log
+!runs/*.log
+runs/run-final/adapter_step*.pt
+runs/run-final/chunk*.log
+.ipynb_checkpoints/
+.DS_Store

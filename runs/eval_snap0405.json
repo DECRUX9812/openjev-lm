@@ -1,0 +1,4672 @@
+{
+ "meta": {
+  "model": "../models/Qwen2.5-0.5B-Instruct",
+  "adapter": "runs/snap_0405/adapter.pt",
+  "data": "data/eval_gold.jsonl",
+  "n": 70,
+  "method": "parallel constrained decoding: exact target_for() JSON shape, argmax over allowed candidates per field, one batched forward per field (7/row), candidate scores are full-string log-likelihood sums, confidence = softmax over those sums",
+  "fields": [
+   "bucket",
+   "technical_need",
+   "business_buyer",
+   "small_firm_doable",
+   "pay_stated",
+   "evergreen_repost",
+   "fit"
+  ],
+  "candidates": {
+   "bucket": [
+    "service_lead",
+    "staff_role",
+    "generic_job",
+    "junk"
+   ],
+   "technical_need": [
+    " true",
+    " false"
+   ],
+   "business_buyer": [
+    " true",
+    " false"
+   ],
+   "small_firm_doable": [
+    " true",
+    " false"
+   ],
+   "pay_stated": [
+    " true",
+    " false"
+   ],
+   "evergreen_repost": [
+    " true",
+    " false"
+   ],
+   "fit": [
+    " 0",
+    " 1",
+    " 2",
+    " 3",
+    " 4"
+   ]
+  },
+  "candidate_token_ids": {
+   "bucket": {
+    "service_lead": [
+     7936,
+     87052
+    ],
+    "staff_role": [
+     27122,
+     19792
+    ],
+    "generic_job": [
+     35787,
+     20298
+    ],
+    "junk": [
+     73,
+     3122
+    ]
+   },
+   "technical_need": {
+    " true": [
+     830
+    ],
+    " false": [
+     895
+    ]
+   },
+   "business_buyer": {
+    " true": [
+     830
+    ],
+    " false": [
+     895
+    ]
+   },
+   "small_firm_doable": {
+    " true": [
+     830
+    ],
+    " false": [
+     895
+    ]
+   },
+   "pay_stated": {
+    " true": [
+     830
+    ],
+    " false": [
+     895
+    ]
+   },
+   "evergreen_repost": {
+    " true": [
+     830
+    ],
+    " false": [
+     895
+    ]
+   },
+   "fit": {
+    " 0": [
+     220,
+     15
+    ],
+    " 1": [
+     220,
+     16
+    ],
+    " 2": [
+     220,
+     17
+    ],
+    " 3": [
+     220,
+     18
+    ],
+    " 4": [
+     220,
+     19
+    ]
+   }
+  },
+  "prompt_source": "row['prompt'] verbatim from the eval file (compact format)",
+  "jev_sources": [
+   "/home/decrux/Code/typesafe-lab/runs/leads_corpus_full.json",
+   "/home/decrux/Code/jev-repro-test/runs_local/leads_jev_live_nocache.json"
+  ],
+  "jev_bucket_source_mismatches_vs_card": 0,
+  "threads": 3,
+  "load_s": 3.7,
+  "wall_s": 708.7,
+  "row_s_mean": 10.12,
+  "format_ok_all": true,
+  "adapter_rank": 16,
+  "adapter_step": 120,
+  "adapter_params": 192,
+  "n_lora_layers": 96
+ },
+ "metrics": {
+  "n": 70,
+  "bucket_accuracy": 0.9,
+  "per_gold_bucket_recall": {
+   "service_lead": {
+    "n": 2,
+    "correct": 0,
+    "rate": 0.0
+   },
+   "staff_role": {
+    "n": 14,
+    "correct": 9,
+    "rate": 0.6429
+   },
+   "generic_job": {
+    "n": 54,
+    "correct": 54,
+    "rate": 1.0
+   },
+   "junk": {
+    "n": 0,
+    "correct": 0,
+    "rate": null
+   }
+  },
+  "per_pred_bucket": {
+   "service_lead": {
+    "n": 0,
+    "correct": 0,
+    "rate": null
+   },
+   "staff_role": {
+    "n": 9,
+    "correct": 9,
+    "rate": 1.0
+   },
+   "generic_job": {
+    "n": 61,
+    "correct": 54,
+    "rate": 0.8852
+   },
+   "junk": {
+    "n": 0,
+    "correct": 0,
+    "rate": null
+   }
+  },
+  "confusion_gold_to_pred": {
+   "service_lead": {
+    "service_lead": 0,
+    "staff_role": 0,
+    "generic_job": 2,
+    "junk": 0
+   },
+   "staff_role": {
+    "service_lead": 0,
+    "staff_role": 9,
+    "generic_job": 5,
+    "junk": 0
+   },
+   "generic_job": {
+    "service_lead": 0,
+    "staff_role": 0,
+    "generic_job": 54,
+    "junk": 0
+   },
+   "junk": {
+    "service_lead": 0,
+    "staff_role": 0,
+    "generic_job": 0,
+    "junk": 0
+   }
+  },
+  "jev_bucket_agreement": 0.9143,
+  "mean_bucket_confidence": 0.9293,
+  "ece_5bin": 0.044,
+  "brier_4class": 0.1282,
+  "bucket_accuracy_firsttok_variant": 0.9,
+  "firsttok_label_differs_from_fullstring": 0,
+  "boolean_agreement_vs_jev": {
+   "technical_need": {
+    "n": 70,
+    "agree": 64,
+    "agreement": 0.9143
+   },
+   "business_buyer": {
+    "n": 70,
+    "agree": 70,
+    "agreement": 1.0
+   },
+   "small_firm_doable": {
+    "n": 70,
+    "agree": 64,
+    "agreement": 0.9143
+   },
+   "pay_stated": {
+    "n": 70,
+    "agree": 70,
+    "agreement": 1.0
+   },
+   "evergreen_repost": {
+    "n": 70,
+    "agree": 70,
+    "agreement": 1.0
+   }
+  },
+  "boolean_agreement_overall": 0.9657,
+  "fit_mean_abs_delta_vs_jev": 0.2347,
+  "fit_exact_rate_vs_jev": 0.0286
+ },
+ "rows": [
+  {
+   "id": "1515771",
+   "title": "Electronic Business (E-Business) Web Site Develope",
+   "gold": "service_lead",
+   "jev_bucket": "service_lead",
+   "pred_bucket": "generic_job",
+   "correct": false,
+   "agree_jev": false,
+   "bucket_conf": 0.5934,
+   "bucket_probs": {
+    "service_lead": 0.0019,
+    "staff_role": 0.3517,
+    "generic_job": 0.5934,
+    "junk": 0.053
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0022,
+    "staff_role": 0.3516,
+    "generic_job": 0.5932,
+    "junk": 0.053
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0253,
+     "jev": true,
+     "agree": false
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9914,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0237,
+     "jev": true,
+     "agree": false
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0009,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.2689,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 2.45,
+    "delta": -2.45
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.29
+  },
+  {
+   "id": "1543088",
+   "title": "Analyst (ID Admin)",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "generic_job",
+   "correct": false,
+   "agree_jev": false,
+   "bucket_conf": 0.8398,
+   "bucket_probs": {
+    "service_lead": 0.0013,
+    "staff_role": 0.0906,
+    "generic_job": 0.8398,
+    "junk": 0.0683
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0013,
+    "staff_role": 0.0906,
+    "generic_job": 0.8398,
+    "junk": 0.0683
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0136,
+     "jev": true,
+     "agree": false
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9972,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0261,
+     "jev": true,
+     "agree": false
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0011,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1409,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 1.26,
+    "delta": -1.26
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.16
+  },
+  {
+   "id": "1536515",
+   "title": "Lead Developer",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.5835,
+   "bucket_probs": {
+    "service_lead": 0.0025,
+    "staff_role": 0.5835,
+    "generic_job": 0.3849,
+    "junk": 0.0291
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0026,
+    "staff_role": 0.5835,
+    "generic_job": 0.3848,
+    "junk": 0.0291
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9978,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9998,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9829,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.002,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1276,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.26,
+    "delta": -0.26
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 9.8
+  },
+  {
+   "id": "1541494",
+   "title": "Data Architect",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.8782,
+   "bucket_probs": {
+    "service_lead": 0.0008,
+    "staff_role": 0.8782,
+    "generic_job": 0.0972,
+    "junk": 0.0237
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0008,
+    "staff_role": 0.8782,
+    "generic_job": 0.0973,
+    "junk": 0.0238
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9993,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9988,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9925,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.003,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1496,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.17,
+    "delta": -0.17
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 9.78
+  },
+  {
+   "id": "1539995",
+   "title": "Data Modeler",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "generic_job",
+   "correct": false,
+   "agree_jev": false,
+   "bucket_conf": 0.5238,
+   "bucket_probs": {
+    "service_lead": 0.0015,
+    "staff_role": 0.4094,
+    "generic_job": 0.5238,
+    "junk": 0.0652
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0015,
+    "staff_role": 0.4094,
+    "generic_job": 0.5238,
+    "junk": 0.0652
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0578,
+     "jev": true,
+     "agree": false
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9935,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0503,
+     "jev": true,
+     "agree": false
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0018,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.2054,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 1.13,
+    "delta": -1.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 13.4
+  },
+  {
+   "id": "1535165",
+   "title": "Tech Adoption Analyst, IT Communications Special",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9353,
+   "bucket_probs": {
+    "service_lead": 0.002,
+    "staff_role": 0.9353,
+    "generic_job": 0.0503,
+    "junk": 0.0124
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.002,
+    "staff_role": 0.9353,
+    "generic_job": 0.0503,
+    "junk": 0.0124
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9997,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9997,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9914,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.003,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1426,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.12,
+    "delta": -0.12
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 12.59
+  },
+  {
+   "id": "1532505",
+   "title": "Manager, Data and Analysis",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "generic_job",
+   "correct": false,
+   "agree_jev": false,
+   "bucket_conf": 0.7331,
+   "bucket_probs": {
+    "service_lead": 0.0018,
+    "staff_role": 0.1857,
+    "generic_job": 0.7331,
+    "junk": 0.0794
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0018,
+    "staff_role": 0.1857,
+    "generic_job": 0.7331,
+    "junk": 0.0794
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0167,
+     "jev": true,
+     "agree": false
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9957,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0259,
+     "jev": true,
+     "agree": false
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0012,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1614,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 1.12,
+    "delta": -1.12
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 13.29
+  },
+  {
+   "id": "1534186",
+   "title": "Information Systems Analyst",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9633,
+   "bucket_probs": {
+    "service_lead": 0.0017,
+    "staff_role": 0.9633,
+    "generic_job": 0.0283,
+    "junk": 0.0068
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0017,
+    "staff_role": 0.9633,
+    "generic_job": 0.0283,
+    "junk": 0.0068
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9995,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9994,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9866,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0022,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.105,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.11,
+    "delta": -0.11
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 9.29
+  },
+  {
+   "id": "1544518",
+   "title": "Web Designer",
+   "gold": "service_lead",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "generic_job",
+   "correct": false,
+   "agree_jev": false,
+   "bucket_conf": 0.6094,
+   "bucket_probs": {
+    "service_lead": 0.0023,
+    "staff_role": 0.3372,
+    "generic_job": 0.6094,
+    "junk": 0.0512
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0023,
+    "staff_role": 0.3372,
+    "generic_job": 0.6093,
+    "junk": 0.0512
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0222,
+     "jev": true,
+     "agree": false
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9939,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0364,
+     "jev": true,
+     "agree": false
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.001,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.192,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 1.08,
+    "delta": -1.08
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.5
+  },
+  {
+   "id": "1544444",
+   "title": "Integrated IT Services Admin (Server Admin)",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9086,
+   "bucket_probs": {
+    "service_lead": 0.0018,
+    "staff_role": 0.9086,
+    "generic_job": 0.0775,
+    "junk": 0.0122
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0018,
+    "staff_role": 0.9085,
+    "generic_job": 0.0775,
+    "junk": 0.0122
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9996,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9996,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9883,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0018,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.142,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.05,
+    "delta": -0.05
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 11.37
+  },
+  {
+   "id": "1540140",
+   "title": "Network And Server Analyst",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.8801,
+   "bucket_probs": {
+    "service_lead": 0.0021,
+    "staff_role": 0.8801,
+    "generic_job": 0.0965,
+    "junk": 0.0213
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0021,
+    "staff_role": 0.8801,
+    "generic_job": 0.0965,
+    "junk": 0.0213
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9991,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9997,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9912,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0025,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1618,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.04,
+    "delta": -0.04
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 10.89
+  },
+  {
+   "id": "1540402",
+   "title": "Application Analyst",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.8158,
+   "bucket_probs": {
+    "service_lead": 0.0023,
+    "staff_role": 0.8158,
+    "generic_job": 0.1648,
+    "junk": 0.0171
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0023,
+    "staff_role": 0.8158,
+    "generic_job": 0.1648,
+    "junk": 0.0171
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9994,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9996,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9897,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.002,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.133,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.04,
+    "delta": -0.04
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 10.01
+  },
+  {
+   "id": "1534651",
+   "title": "Technical Support Analyst",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9658,
+   "bucket_probs": {
+    "service_lead": 0.0009,
+    "staff_role": 0.9658,
+    "generic_job": 0.0237,
+    "junk": 0.0096
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0009,
+    "staff_role": 0.9658,
+    "generic_job": 0.0237,
+    "junk": 0.0096
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9997,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9998,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9882,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0019,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1142,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.04,
+    "delta": -0.04
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 8.71
+  },
+  {
+   "id": "1539681",
+   "title": "Information Technology Senior Analyst",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "staff_role",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9543,
+   "bucket_probs": {
+    "service_lead": 0.0013,
+    "staff_role": 0.9543,
+    "generic_job": 0.0372,
+    "junk": 0.0072
+   },
+   "bucket_firsttok": "staff_role",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0013,
+    "staff_role": 0.9543,
+    "generic_job": 0.0372,
+    "junk": 0.0072
+   },
+   "bools": {
+    "technical_need": {
+     "pred": true,
+     "p_true": 0.9997,
+     "jev": true,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9997,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": true,
+     "p_true": 0.9889,
+     "jev": true,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0018,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1172,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 1,
+    "jev": 1.02,
+    "delta": -0.02
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"staff_role\", \"technical_need\": true, \"business_buyer\": true, \"small_firm_doable\": true, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 1}",
+   "row_s": 13.9
+  },
+  {
+   "id": "1543395",
+   "title": "100970 - Information Management Analyst",
+   "gold": "staff_role",
+   "jev_bucket": "staff_role",
+   "pred_bucket": "generic_job",
+   "correct": false,
+   "agree_jev": false,
+   "bucket_conf": 0.5208,
+   "bucket_probs": {
+    "service_lead": 0.0013,
+    "staff_role": 0.4239,
+    "generic_job": 0.5208,
+    "junk": 0.054
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0013,
+    "staff_role": 0.4239,
+    "generic_job": 0.5208,
+    "junk": 0.054
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0114,
+     "jev": true,
+     "agree": false
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9979,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0189,
+     "jev": true,
+     "agree": false
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0008,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1401,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 1.02,
+    "delta": -1.02
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 11.14
+  },
+  {
+   "id": "1535227",
+   "title": "Director of Engineering and Field Services",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.8377,
+   "bucket_probs": {
+    "service_lead": 0.0017,
+    "staff_role": 0.1379,
+    "generic_job": 0.8377,
+    "junk": 0.0227
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0018,
+    "staff_role": 0.1379,
+    "generic_job": 0.8376,
+    "junk": 0.0227
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.006,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9928,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0131,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1188,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 1.06,
+    "delta": -1.06
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.99
+  },
+  {
+   "id": "1543126",
+   "title": "Health Information Management Clerk",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9562,
+   "bucket_probs": {
+    "service_lead": 0.0004,
+    "staff_role": 0.0126,
+    "generic_job": 0.9562,
+    "junk": 0.0308
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0004,
+    "staff_role": 0.0126,
+    "generic_job": 0.9562,
+    "junk": 0.0308
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0077,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9959,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0132,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1558,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.51,
+    "delta": -0.51
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.83
+  },
+  {
+   "id": "1541075",
+   "title": "Senior Analyst, Corporate Portfolio Management Off",
+   "gold": "staff_role",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": false,
+   "agree_jev": true,
+   "bucket_conf": 0.8165,
+   "bucket_probs": {
+    "service_lead": 0.0006,
+    "staff_role": 0.1454,
+    "generic_job": 0.8165,
+    "junk": 0.0375
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0006,
+    "staff_role": 0.1454,
+    "generic_job": 0.8165,
+    "junk": 0.0375
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0056,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9948,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0173,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.001,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1456,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.39,
+    "delta": -0.39
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.52
+  },
+  {
+   "id": "1533202",
+   "title": "Credit Policy Analyst",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.8844,
+   "bucket_probs": {
+    "service_lead": 0.0007,
+    "staff_role": 0.0507,
+    "generic_job": 0.8844,
+    "junk": 0.0643
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0007,
+    "staff_role": 0.0507,
+    "generic_job": 0.8844,
+    "junk": 0.0643
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0131,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9958,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0235,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0014,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1707,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.34,
+    "delta": -0.34
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.14
+  },
+  {
+   "id": "1533170",
+   "title": "Medical Radiation Technologist - Specialty",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.8939,
+   "bucket_probs": {
+    "service_lead": 0.0011,
+    "staff_role": 0.0738,
+    "generic_job": 0.8939,
+    "junk": 0.0313
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0011,
+    "staff_role": 0.0738,
+    "generic_job": 0.8938,
+    "junk": 0.0313
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0077,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.995,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0041,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1513,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.34,
+    "delta": -0.34
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.32
+  },
+  {
+   "id": "1543280",
+   "title": "Staff Scheduler",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9825,
+   "bucket_probs": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0012,
+    "generic_job": 0.9825,
+    "junk": 0.0161
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0012,
+    "generic_job": 0.9825,
+    "junk": 0.0161
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0039,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.996,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0111,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1219,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.32,
+    "delta": -0.32
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 12.1
+  },
+  {
+   "id": "1499422",
+   "title": "Medical Radiation Technologist",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9391,
+   "bucket_probs": {
+    "service_lead": 0.0007,
+    "staff_role": 0.035,
+    "generic_job": 0.9391,
+    "junk": 0.0252
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0007,
+    "staff_role": 0.035,
+    "generic_job": 0.9391,
+    "junk": 0.0252
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0055,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.996,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0034,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1336,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.32,
+    "delta": -0.32
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.77
+  },
+  {
+   "id": "1537705",
+   "title": "Deposit Support Representative",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.964,
+   "bucket_probs": {
+    "service_lead": 0.0003,
+    "staff_role": 0.0078,
+    "generic_job": 0.964,
+    "junk": 0.0279
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0003,
+    "staff_role": 0.0078,
+    "generic_job": 0.964,
+    "junk": 0.0279
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0082,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.995,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0156,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0009,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1917,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.25,
+    "delta": -0.25
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.5
+  },
+  {
+   "id": "1536430",
+   "title": "Liaison Officer",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9846,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0009,
+    "generic_job": 0.9846,
+    "junk": 0.0145
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0009,
+    "generic_job": 0.9846,
+    "junk": 0.0145
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0024,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9972,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0071,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1096,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.25,
+    "delta": -0.25
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.46
+  },
+  {
+   "id": "1538750",
+   "title": "Automotive Service Technician",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.8421,
+   "bucket_probs": {
+    "service_lead": 0.0015,
+    "staff_role": 0.14,
+    "generic_job": 0.8421,
+    "junk": 0.0164
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0015,
+    "staff_role": 0.1401,
+    "generic_job": 0.8421,
+    "junk": 0.0164
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0054,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9939,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0061,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1265,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.22,
+    "delta": -0.22
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.08
+  },
+  {
+   "id": "1532921",
+   "title": "Millwright - Maintenance Technician",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9675,
+   "bucket_probs": {
+    "service_lead": 0.0007,
+    "staff_role": 0.0162,
+    "generic_job": 0.9675,
+    "junk": 0.0157
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0007,
+    "staff_role": 0.0162,
+    "generic_job": 0.9675,
+    "junk": 0.0157
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0025,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9941,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.006,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1383,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.22,
+    "delta": -0.22
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.22
+  },
+  {
+   "id": "1539078",
+   "title": "Manager Environmental Services Regina Unit Support",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9862,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0006,
+    "generic_job": 0.9862,
+    "junk": 0.0132
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0006,
+    "generic_job": 0.9862,
+    "junk": 0.0132
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0029,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9952,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0052,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1344,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.21,
+    "delta": -0.21
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.8
+  },
+  {
+   "id": "1543188",
+   "title": "Clinic Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9917,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0003,
+    "generic_job": 0.9917,
+    "junk": 0.008
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0003,
+    "generic_job": 0.9917,
+    "junk": 0.008
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.003,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9954,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0086,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1423,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.2,
+    "delta": -0.2
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.84
+  },
+  {
+   "id": "1542133",
+   "title": "Assessor Coordinator Degree",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9656,
+   "bucket_probs": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0049,
+    "generic_job": 0.9656,
+    "junk": 0.0293
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0049,
+    "generic_job": 0.9656,
+    "junk": 0.0293
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0047,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9973,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0078,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1343,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.2,
+    "delta": -0.2
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.32
+  },
+  {
+   "id": "1537460",
+   "title": "Radiation Therapist I",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9856,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0016,
+    "generic_job": 0.9856,
+    "junk": 0.0127
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0016,
+    "generic_job": 0.9856,
+    "junk": 0.0127
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0039,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.997,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0074,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.148,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.19,
+    "delta": -0.19
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.51
+  },
+  {
+   "id": "1542704",
+   "title": "100211 - Executive Coordinator",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9839,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0008,
+    "generic_job": 0.9839,
+    "junk": 0.0153
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0008,
+    "generic_job": 0.9839,
+    "junk": 0.0153
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0023,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9978,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0057,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1137,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.15,
+    "delta": -0.15
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.22
+  },
+  {
+   "id": "1543034",
+   "title": "Customer Service Representative",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9777,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0037,
+    "generic_job": 0.9777,
+    "junk": 0.0185
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0037,
+    "generic_job": 0.9777,
+    "junk": 0.0185
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0049,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9944,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0314,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0013,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1888,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.0
+  },
+  {
+   "id": "1542844",
+   "title": "Continuing Care Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0035,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9968,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.007,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1513,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.16
+  },
+  {
+   "id": "1539389",
+   "title": "Continuing Care Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0035,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9968,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.007,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1513,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.03
+  },
+  {
+   "id": "1539039",
+   "title": "Continuing Care Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0035,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9968,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.007,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1513,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 12.4
+  },
+  {
+   "id": "1534982",
+   "title": "Continuing Care Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0035,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9968,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.007,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1513,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.05
+  },
+  {
+   "id": "1535157",
+   "title": "Legal Administrative Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9785,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0028,
+    "generic_job": 0.9785,
+    "junk": 0.0187
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0028,
+    "generic_job": 0.9785,
+    "junk": 0.0187
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0052,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9943,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0087,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0008,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1483,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.8
+  },
+  {
+   "id": "1533863",
+   "title": "Continuing Care Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0035,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9968,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.007,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1513,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.8
+  },
+  {
+   "id": "1532965",
+   "title": "Continuing Care Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9864,
+    "junk": 0.013
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0035,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9968,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.007,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1513,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.13,
+    "delta": -0.13
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.19
+  },
+  {
+   "id": "1537714",
+   "title": "CASUAL SECRETARY (+)",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0007,
+    "generic_job": 0.9864,
+    "junk": 0.0128
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0007,
+    "generic_job": 0.9864,
+    "junk": 0.0128
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0036,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9962,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0069,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1321,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.12,
+    "delta": -0.12
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.98
+  },
+  {
+   "id": "1541763",
+   "title": "Licensing Coordinator",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.928,
+   "bucket_probs": {
+    "service_lead": 0.0005,
+    "staff_role": 0.0216,
+    "generic_job": 0.928,
+    "junk": 0.0499
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0005,
+    "staff_role": 0.0216,
+    "generic_job": 0.928,
+    "junk": 0.0499
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0076,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9951,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0161,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0009,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1296,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.11,
+    "delta": -0.11
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.51
+  },
+  {
+   "id": "1539497",
+   "title": "GM ASEP Automotive Mechanic",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9895,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0031,
+    "generic_job": 0.9895,
+    "junk": 0.0073
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0031,
+    "generic_job": 0.9895,
+    "junk": 0.0073
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0019,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9945,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0049,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1147,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.11,
+    "delta": -0.11
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 11.75
+  },
+  {
+   "id": "1532405",
+   "title": "Unit Support Worker",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9865,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0006,
+    "generic_job": 0.9865,
+    "junk": 0.0128
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0006,
+    "generic_job": 0.9865,
+    "junk": 0.0128
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0022,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9973,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.008,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.114,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.09,
+    "delta": -0.09
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 13.48
+  },
+  {
+   "id": "1542453",
+   "title": "Plumber",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9881,
+   "bucket_probs": {
+    "service_lead": 0.0003,
+    "staff_role": 0.0041,
+    "generic_job": 0.9881,
+    "junk": 0.0074
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0003,
+    "staff_role": 0.0041,
+    "generic_job": 0.9881,
+    "junk": 0.0074
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0029,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9911,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0042,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0008,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1391,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.08,
+    "delta": -0.08
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.07
+  },
+  {
+   "id": "1534545",
+   "title": "Nurse A - Registered Nurse General Duty Nurse - Sh",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9716,
+   "bucket_probs": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0071,
+    "generic_job": 0.9716,
+    "junk": 0.0212
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0071,
+    "generic_job": 0.9716,
+    "junk": 0.0212
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.006,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9977,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0026,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1386,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.07,
+    "delta": -0.07
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.0
+  },
+  {
+   "id": "1534632",
+   "title": "Auto Body Repair Technician",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9527,
+   "bucket_probs": {
+    "service_lead": 0.002,
+    "staff_role": 0.0339,
+    "generic_job": 0.9527,
+    "junk": 0.0114
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.002,
+    "staff_role": 0.0339,
+    "generic_job": 0.9526,
+    "junk": 0.0115
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0033,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9954,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0065,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1913,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.07,
+    "delta": -0.07
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.26
+  },
+  {
+   "id": "1536255",
+   "title": "Licensed Practical Nurse",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9915,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0002,
+    "generic_job": 0.9915,
+    "junk": 0.0082
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0002,
+    "generic_job": 0.9915,
+    "junk": 0.0082
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.003,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9964,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0048,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1095,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.06,
+    "delta": -0.06
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 10.4
+  },
+  {
+   "id": "1512281",
+   "title": "Long Haul Truck Driver",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9936,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0004,
+    "generic_job": 0.9936,
+    "junk": 0.006
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0004,
+    "generic_job": 0.9936,
+    "junk": 0.006
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0021,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9945,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0046,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1427,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.06,
+    "delta": -0.06
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.19
+  },
+  {
+   "id": "1412674",
+   "title": "Anaesthesia Assistant Certified",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9912,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0006,
+    "generic_job": 0.9912,
+    "junk": 0.0081
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0006,
+    "generic_job": 0.9912,
+    "junk": 0.0081
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.003,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9966,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0051,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1273,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.06,
+    "delta": -0.06
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 15.05
+  },
+  {
+   "id": "1543384",
+   "title": "0.50 FTE Temporary Grade 5 Teacher",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9864,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0022,
+    "generic_job": 0.9864,
+    "junk": 0.0113
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0022,
+    "generic_job": 0.9864,
+    "junk": 0.0113
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0018,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.995,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0048,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1377,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.05,
+    "delta": -0.05
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 12.07
+  },
+  {
+   "id": "1539195",
+   "title": "Legal Counsel - Litigation Specialist",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9648,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0052,
+    "generic_job": 0.9648,
+    "junk": 0.0299
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0052,
+    "generic_job": 0.9648,
+    "junk": 0.0299
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0069,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9961,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0099,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0008,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1623,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.05,
+    "delta": -0.05
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 12.33
+  },
+  {
+   "id": "1533689",
+   "title": "Family Therapist - Family Treatment C, Regina, SK",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9908,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0008,
+    "generic_job": 0.9908,
+    "junk": 0.0084
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0008,
+    "generic_job": 0.9908,
+    "junk": 0.0084
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0038,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9961,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0055,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1851,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.04,
+    "delta": -0.04
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 11.51
+  },
+  {
+   "id": "1533083",
+   "title": "Part-time instructor for language school",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9916,
+   "bucket_probs": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0015,
+    "generic_job": 0.9916,
+    "junk": 0.0068
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0015,
+    "generic_job": 0.9916,
+    "junk": 0.0068
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0025,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9921,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0081,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1458,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.04,
+    "delta": -0.04
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.64
+  },
+  {
+   "id": "1541054",
+   "title": "Interpreter - Bengali",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9089,
+   "bucket_probs": {
+    "service_lead": 0.0017,
+    "staff_role": 0.0474,
+    "generic_job": 0.9089,
+    "junk": 0.0419
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0017,
+    "staff_role": 0.0474,
+    "generic_job": 0.9089,
+    "junk": 0.0419
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0074,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9953,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0158,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1591,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.04,
+    "delta": -0.04
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.43
+  },
+  {
+   "id": "1535624",
+   "title": "Mathnasium Instructor",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9917,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0019,
+    "generic_job": 0.9917,
+    "junk": 0.0063
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0019,
+    "generic_job": 0.9917,
+    "junk": 0.0063
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0027,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9956,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0096,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1486,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.03,
+    "delta": -0.03
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 15.94
+  },
+  {
+   "id": "1533382",
+   "title": "Carpenters & Labourers",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9971,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0002,
+    "generic_job": 0.9971,
+    "junk": 0.0026
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0002,
+    "generic_job": 0.9971,
+    "junk": 0.0026
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0017,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9887,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0042,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1252,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.03,
+    "delta": -0.03
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.21
+  },
+  {
+   "id": "1533551",
+   "title": "Experienced Carpenters/Cement Finishers",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9947,
+   "bucket_probs": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0011,
+    "generic_job": 0.9947,
+    "junk": 0.0041
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0011,
+    "generic_job": 0.9947,
+    "junk": 0.0041
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0017,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.99,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0055,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1775,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.03,
+    "delta": -0.03
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.78
+  },
+  {
+   "id": "1542402",
+   "title": "Domestic Aid",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9878,
+   "bucket_probs": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0005,
+    "generic_job": 0.9878,
+    "junk": 0.0115
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0005,
+    "generic_job": 0.9878,
+    "junk": 0.0115
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0021,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9943,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0068,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1175,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.03,
+    "delta": -0.03
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 7.92
+  },
+  {
+   "id": "1532880",
+   "title": "Locksmith/Journeyperson - Carpenter",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9949,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0013,
+    "generic_job": 0.9949,
+    "junk": 0.0038
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0013,
+    "generic_job": 0.9949,
+    "junk": 0.0038
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0026,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.992,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0075,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0005,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1307,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.03,
+    "delta": -0.03
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.27
+  },
+  {
+   "id": "1533403",
+   "title": "Flat Roofer",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9921,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0015,
+    "generic_job": 0.9921,
+    "junk": 0.0063
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0015,
+    "generic_job": 0.9921,
+    "junk": 0.0063
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0021,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.993,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0066,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1337,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.02,
+    "delta": -0.02
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.57
+  },
+  {
+   "id": "1541694",
+   "title": "Employer Relations & Outreach Assistant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9759,
+   "bucket_probs": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0035,
+    "generic_job": 0.9759,
+    "junk": 0.0205
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0002,
+    "staff_role": 0.0035,
+    "generic_job": 0.9759,
+    "junk": 0.0205
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0044,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9946,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0125,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.001,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1793,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.02,
+    "delta": -0.02
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.98
+  },
+  {
+   "id": "1543845",
+   "title": "Construction Helper",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.989,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0008,
+    "generic_job": 0.989,
+    "junk": 0.01
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0008,
+    "generic_job": 0.989,
+    "junk": 0.01
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.002,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9947,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0072,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1479,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.01,
+    "delta": -0.01
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.89
+  },
+  {
+   "id": "1542711",
+   "title": "Delivery Driver",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9913,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0007,
+    "generic_job": 0.9913,
+    "junk": 0.0079
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0007,
+    "generic_job": 0.9913,
+    "junk": 0.0079
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0022,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9972,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0085,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1543,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.01,
+    "delta": -0.01
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 12.7
+  },
+  {
+   "id": "1542302",
+   "title": "Food counter attendant",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9933,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0002,
+    "generic_job": 0.9933,
+    "junk": 0.0064
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0002,
+    "generic_job": 0.9933,
+    "junk": 0.0064
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.005,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9929,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0166,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0009,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1435,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.01,
+    "delta": -0.01
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.09
+  },
+  {
+   "id": "1542663",
+   "title": "Cook Three - Kitchen Help",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9936,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0003,
+    "generic_job": 0.9936,
+    "junk": 0.0061
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0003,
+    "generic_job": 0.9936,
+    "junk": 0.0061
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0027,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9951,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0089,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1618,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.01,
+    "delta": -0.01
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.78
+  },
+  {
+   "id": "1536934",
+   "title": "Food Service Supervisor",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9925,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0005,
+    "generic_job": 0.9925,
+    "junk": 0.007
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0005,
+    "generic_job": 0.9925,
+    "junk": 0.007
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0059,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9943,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0065,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0009,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1126,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.01,
+    "delta": -0.01
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 7.93
+  },
+  {
+   "id": "1536823",
+   "title": "Shop Labourer",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9955,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9955,
+    "junk": 0.0039
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0005,
+    "generic_job": 0.9955,
+    "junk": 0.0039
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.002,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9897,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0061,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0007,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1125,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.01,
+    "delta": -0.01
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 7.54
+  },
+  {
+   "id": "1540593",
+   "title": "Welder - CWB Certified",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9897,
+   "bucket_probs": {
+    "service_lead": 0.0003,
+    "staff_role": 0.0042,
+    "generic_job": 0.9897,
+    "junk": 0.0058
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0003,
+    "staff_role": 0.0042,
+    "generic_job": 0.9897,
+    "junk": 0.0058
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0015,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9942,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0031,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1309,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.01,
+    "delta": -0.01
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 9.18
+  },
+  {
+   "id": "1544163",
+   "title": "Bartender",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9952,
+   "bucket_probs": {
+    "service_lead": 0.0,
+    "staff_role": 0.0004,
+    "generic_job": 0.9952,
+    "junk": 0.0043
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0,
+    "staff_role": 0.0004,
+    "generic_job": 0.9952,
+    "junk": 0.0043
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0036,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9922,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0088,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0009,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1397,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.0,
+    "delta": 0.0
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 8.98
+  },
+  {
+   "id": "1543363",
+   "title": "Assistant Cook",
+   "gold": "generic_job",
+   "jev_bucket": "generic_job",
+   "pred_bucket": "generic_job",
+   "correct": true,
+   "agree_jev": true,
+   "bucket_conf": 0.9909,
+   "bucket_probs": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0009,
+    "generic_job": 0.9909,
+    "junk": 0.0081
+   },
+   "bucket_firsttok": "generic_job",
+   "bucket_probs_firsttok": {
+    "service_lead": 0.0001,
+    "staff_role": 0.0009,
+    "generic_job": 0.9909,
+    "junk": 0.0081
+   },
+   "bools": {
+    "technical_need": {
+     "pred": false,
+     "p_true": 0.0025,
+     "jev": false,
+     "agree": true
+    },
+    "business_buyer": {
+     "pred": true,
+     "p_true": 0.9947,
+     "jev": true,
+     "agree": true
+    },
+    "small_firm_doable": {
+     "pred": false,
+     "p_true": 0.0105,
+     "jev": false,
+     "agree": true
+    },
+    "pay_stated": {
+     "pred": false,
+     "p_true": 0.0006,
+     "jev": false,
+     "agree": true
+    },
+    "evergreen_repost": {
+     "pred": false,
+     "p_true": 0.1576,
+     "jev": false,
+     "agree": true
+    }
+   },
+   "fit": {
+    "pred": 0,
+    "jev": 0.0,
+    "delta": 0.0
+   },
+   "format_ok": true,
+   "answer_text": "{\"bucket\": \"generic_job\", \"technical_need\": false, \"business_buyer\": true, \"small_firm_doable\": false, \"pay_stated\": false, \"evergreen_repost\": false, \"fit\": 0}",
+   "row_s": 12.03
+  }
+ ]
+}

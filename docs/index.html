@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>open-Jev — 92.9% of a hosted decision model's judgment, 0.5B params, one night, no GPU</title>
+<meta name="description" content="We measured the viral Jev reproduction (77.1% — the majority-class prior), then trained two open, local, zero-cost reproductions of the same judgment. Full paper, weights, corpora, receipts.">
+<style>
+  :root { --bg:#0c0e12; --ink:#e8e6e1; --dim:#9aa0a6; --line:#23262d; --acc:#35d39a; --card:#14171d; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:17px/1.65 "Inter","Helvetica Neue",Arial,sans-serif; }
+  .wrap { max-width:820px; margin:0 auto; padding:56px 22px 90px; }
+  .brand { color:var(--acc); font-weight:650; letter-spacing:.2px; }
+  h1 { font-size:clamp(30px,4.6vw,44px); line-height:1.14; margin:26px 0 14px; font-weight:680; letter-spacing:-.4px; }
+  .sub { color:var(--dim); font-size:19px; margin:0 0 34px; }
+  h2 { font-size:22px; margin:52px 0 12px; font-weight:640; letter-spacing:-.2px; }
+  p { margin:0 0 18px; }
+  a { color:var(--acc); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  hr { border:0; border-top:1px solid var(--line); margin:44px 0; }
+  .hero-nums { display:flex; gap:26px; flex-wrap:wrap; margin:30px 0 8px; }
+  .num { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 20px; min-width:150px; }
+  .num b { display:block; font-size:30px; letter-spacing:-.5px; }
+  .num span { color:var(--dim); font-size:13.5px; }
+  figure { margin:30px 0; }
+  figure img { width:100%; border-radius:12px; border:1px solid var(--line); background:#fff; }
+  figcaption { color:var(--dim); font-size:14px; margin-top:9px; }
+  code { background:#171a20; border:1px solid var(--line); border-radius:6px; padding:1.5px 6px; font-size:14.5px; }
+  pre { background:#14171d; border:1px solid var(--line); border-radius:12px; padding:16px 18px; overflow:auto; font-size:14px; }
+  table { width:100%; border-collapse:collapse; margin:22px 0; font-size:15.5px; }
+  th,td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); }
+  th { color:var(--dim); font-weight:560; }
+  .tag { display:inline-block; font-size:12.5px; color:var(--acc); border:1px solid var(--acc); border-radius:999px; padding:2px 10px; margin-right:8px; vertical-align:2px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 6px; }
+  .cards a { display:block; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; color:var(--ink); }
+  .cards a b { color:var(--acc); font-weight:620; display:block; margin-bottom:2px; }
+  .cards a span { color:var(--dim); font-size:14px; }
+  footer { color:var(--dim); font-size:14px; border-top:1px solid var(--line); margin-top:60px; padding-top:22px; }
+  @media (max-width:640px){ .cards{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="brand">open-Jev</div>
+<h1>92.9% of a hosted decision model's judgment.<br>0.5B parameters. One night. No GPU.</h1>
+<p class="sub">We measured the viral "Jev reproduction" on a hand-labelled benchmark: 77.1% — which is exactly the majority-class prior of that benchmark. So we trained the real thing, in the open, and published everything: paper, weights, corpora, harnesses, negative results, receipts.</p>
+
+<div class="hero-nums">
+  <div class="num"><b>97.1%</b><span>Jev (hosted), reference</span></div>
+  <div class="num"><b>94.3%</b><span>open-Jev classifier (3&nbsp;MB, 6&nbsp;ms)</span></div>
+  <div class="num"><b>92.9%</b><span>open-Jev LM (0.5B + LoRA)</span></div>
+  <div class="num"><b>77.1%</b><span>viral repro = class prior</span></div>
+</div>
+
+<h2>What happened</h2>
+<p>Jev (TypeSafe) is a hosted model that answers seven typed questions about a piece of text — a category, five booleans, a five-point fit score, each with a probability. It is quiet infrastructure in my own pipeline: a watcher collects Saskatchewan job postings, Jev's answers reduce the pile to a worklist of things worth a human look.</p>
+<p>A viral artifact claimed a stock 1.5B model plus a decoding trick "reproduces Jev". We tested it properly, on 70 hand-labelled postings: <b>77.1% bucket accuracy — identical to the rate you get by always answering the most common class (54 of 70)</b>. Its <code>staff_role</code> recall is 3/14, it misses both true <code>service_lead</code> rows, and its confidences are uninformative (Brier 0.359 vs Jev's 0.058). It reproduced the interface, not the judgment. Of its 16 local errors, 10 are technical employee seats read as plain jobs — Data Architect, Network Analyst, IT Senior Analyst.</p>
+<p>So we spent one night doing the obvious next thing.</p>
+
+<figure>
+  <img src="figs/fig1_ladder.svg" alt="Bucket accuracy ladder: Jev 97.1%, open-Jev classifier 94.3%, open-Jev LM 92.9%, viral repro 77.1%, untrained 0.5B 72.9%, majority-class prior 77.1%">
+  <figcaption>All arms on the same 70 hand-labelled postings. The dashed line is the majority-class prior.</figcaption>
+</figure>
+
+<h2>The two open arms</h2>
+<figure>
+  <img src="figs/fig3_pipeline.svg" alt="Two paths: a 0.5B LoRA model emitting typed JSON in one pass, and a 3 MB frozen-encoder classifier in 6 ms">
+  <figcaption>Two ways to run the same judgment offline: a 0.5B LoRA model, and a 3 MB frozen-encoder classifier.</figcaption>
+</figure>
+<p><b>The LM arm.</b> Qwen2.5-0.5B-Instruct + LoRA (r=16): 2,162,688 trainable parameters, 400 steps, batch 6, <b>89 minutes on six vCPUs with no GPU</b>. Training targets are Jev's own API answers for 2,591 postings — under five cents of labelling — every label stored byte-for-byte and re-verified (13/13 checks: no leaks, gold set held out). Two independently written evaluation harnesses ran the same adapter on the same 70 rows and both returned <b>65/70 = 92.9%</b>, agreeing on every row. Mean confidence 0.945 (Jev: 0.956).</p>
+<p><b>The classifier arm.</b> A frozen sentence encoder (bge-small) plus small heads, 12 seeds: <b>66/70 = 94.3%</b>, <b>99.39% agreement with Jev across the full 2,631-posting production corpus</b>, 3 MB of weights, 6 ms per posting, deterministic byte-identical reruns, no GPU, no torch at inference. It is already public at <a href="https://github.com/DECRUX9812/openjev">DECRUX9812/openjev</a>.</p>
+
+<h2>Tested on live traffic, not just a benchmark</h2>
+<table>
+  <tr><th>test</th><th>result</th><th>cost</th></tr>
+  <tr><td>106 fresh postings, never seen, vs hosted Jev</td><td><b>106/106</b> bucket agreement</td><td>$0 vs $0.0025</td></tr>
+  <tr><td>107-posting cross-region boundary slice</td><td><b>104/107</b> (97.2%)</td><td>$0 vs $0.0041</td></tr>
+  <tr><td>whole 2,844-posting archive, re-classified</td><td>18 seconds, tier-stable</td><td><b>$0</b></td></tr>
+</table>
+
+<h2>Negative results are published too</h2>
+<p>They are the interesting part. Synthetic training corpora fail — class balance <i>is</i> behaviour, and a model trained on a majority-class-heavy corpus learns the majority class (0/2 on the rare class). Adding synthetic data to real data makes things worse (66 → 61/70 gold). A kNN blend over embeddings loses to plain heads. A 12× larger encoder buys nothing. The first overnight run's corpus had four gold rows sharing a (title, employer) pair with training data; we found it with an audit script, quantified it, and report the cleaned numbers alongside.</p>
+
+<h2>The actual unlock isn't the score</h2>
+<p>At $0 per call you stop budgeting questions and start reading everything. Our whole archive re-classifies in 18 seconds behind a cron line; the sweep asks questions that were never affordable per-row — repost patterns ("this employer has posted the same technical role every three weeks for a year"), week-over-week drift, employer rollups. <b>Dark data:</b> the archive you collected religiously and could never afford to read.</p>
+<p>Millions of calls a month change from a budget line to a loop. The last 5% of judgment is still the interesting part — see the paper for where both arms fail, precisely.</p>
+
+<hr>
+<h2>Everything, open</h2>
+<div class="cards">
+  <a href="paper/openjev-paper.pdf"><b>Paper (9 pp, PDF)</b><span>method, results, negative results, limits, reproducibility</span></a>
+  <a href="https://github.com/DECRUX9812/openjev-lm"><b>open-Jev LM repo</b><span>code, corpora, adapters, eval harnesses, receipts</span></a>
+  <a href="https://github.com/DECRUX9812/openjev"><b>open-Jev classifier repo</b><span>3 MB model, 99.39% production agreement</span></a>
+  <a href="https://huggingface.co/"><b>Weights on Hugging Face</b><span>0.5B LoRA adapter + Jev-labelled dataset</span></a>
+</div>
+
+<h2>What this is not</h2>
+<p>Not Jev's weights. Not a leak. Not affiliated with or endorsed by TypeSafe. It is an independent workalike trained on answers obtained from their public API, for research, published under MIT because that seems like the honest thing to do. No hosted weights are redistributed. If you build on this, respect upstream terms. If you are TypeSafe and you object, say so and we will take it down.</p>
+
+<h2>Reproduce it</h2>
+<pre># corpora are in the repo; verify labels are Jev's own answers
+python verify_corpus.py            # expect: 13/13 checks
+
+# train the LM arm (6 vCPUs, no GPU, ~90 minutes)
+python train_v2.py --steps 400
+
+# score it — two independent harnesses, expect 65/70 both
+python eval_openjev.py             # A: parallel constrained decoding
+python eval_likelihood.py          # B: staged whole-candidate scoring</pre>
+
+<footer>
+  open-Jev · September 2026 · Ritesh Patel (DECRUX9812) · MIT ·
+  <a href="https://github.com/DECRUX9812/openjev-lm">github.com/DECRUX9812/openjev-lm</a>
+</footer>
+
+</div>
+</body>
+</html>

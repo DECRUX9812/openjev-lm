@@ -1,0 +1,410 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>open-Jev: reproducing a hosted decision model's judgment locally, for nothing</title>
+<style>
+:root { --ink:#16181c; --muted:#5b6470; --rule:#e3e6ea; --accent:#0a7f5a; --bg:#fdfdfc; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin:0; background:var(--bg); color:var(--ink);
+  font: 15.5px/1.72 Charter, Georgia, 'Times New Roman', serif; }
+.page { max-width: 790px; margin: 0 auto; padding: 56px 40px 80px; }
+h1 { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 30px; line-height:1.2;
+  letter-spacing:-0.4px; margin: 0 0 10px; }
+h2 { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 19px; letter-spacing:-0.2px;
+  margin: 40px 0 10px; padding-top: 14px; border-top:1px solid var(--rule); }
+h3 { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; margin: 26px 0 8px; }
+p { margin: 0 0 12px; }
+em { color: var(--muted); }
+strong { color: #000; }
+a { color: var(--accent); text-decoration: none; }
+hr { border:0; border-top:1px solid var(--rule); margin: 30px 0; }
+code { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 0.86em;
+  background:#f2f4f6; border:1px solid var(--rule); border-radius:4px; padding:0.08em 0.32em; }
+table { border-collapse: collapse; width:100%; margin: 14px 0 18px; font-size: 13.6px;
+  font-family: Inter, 'Helvetica Neue', Arial, sans-serif; }
+th { text-align:left; font-weight:600; border-bottom: 2px solid #cfd4da; padding: 7px 9px; }
+td { border-bottom: 1px solid var(--rule); padding: 6px 9px; vertical-align: top; }
+tr:last-child td { border-bottom: 1.5px solid #cfd4da; }
+blockquote { margin: 14px 0; padding: 2px 16px; border-left: 3px solid var(--accent); color: var(--muted); }
+figure { margin: 22px 0 26px; }
+figure img, figure svg { width: 100%; height: auto; }
+figcaption { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 12.4px;
+  color: var(--muted); margin-top: 8px; line-height:1.5; }
+.meta { font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: var(--muted);
+  margin: 0 0 26px; padding-bottom: 18px; border-bottom: 1px solid var(--rule); }
+.abstract { font-size: 14.4px; background:#f5f7f6; border:1px solid var(--rule); border-radius:8px;
+  padding: 16px 18px 8px; margin: 0 0 10px; }
+.abstract h2 { border:0; margin:0 0 6px; font-size: 13px; letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); padding:0; }
+@media print {
+  .page { max-width:none; padding: 0; }
+  h2 { page-break-after: avoid; }
+  figure, table { page-break-inside: avoid; }
+  a { color: var(--ink); text-decoration: none; }
+}
+</style></head><body><div class="page"><h1>open-Jev: reproducing a hosted decision model's judgment locally, for nothing</h1>
+<p class="meta"><strong>Ritesh Patel</strong> — independent researcher, Regina, Canada · September 18, 2026
+Code, weights, corpora and receipts: <code>github.com/DECRUX9812/openjev</code> (classifier arm) and <code>github.com/DECRUX9812/openjev-lm</code> (LM arm), MIT.</p>
+<hr />
+<div class="abstract"><h2>Abstract</h2>
+<p>A hosted model named Jev answers seven typed questions about a piece of text — a category, five booleans, and a 0–4 score — and its judgments are good enough that people build pipelines on them. In September 2026 an artifact claiming to "reproduce Jev" circulated widely; its weights amount to constrained decoding on a stock 1.5B model. We measured it on 70 hand-labelled rows: <strong>54/70 = 77.1%</strong> on the headline question, which is <em>exactly</em> the majority-class rate of the evaluation set (54/70 rows are the dominant class), with 0/2 recall on the commercially rarest class. It reproduced Jev's interface, not its judgment. So we trained real ones. Overnight, on a 6-vCPU CPU-only host with no GPU, a <strong>Qwen2.5-0.5B-Instruct + LoRA (2,162,688 trainable parameters, 400 steps, 89 minutes)</strong> trained on 2,591 rows whose targets are Jev's own API answers reaches <strong>65/70 = 92.9%</strong> on the same hand labels (Jev itself: 68/70 = 97.1%), with 12/14 recall on the class that matters most commercially and far better-calibrated confidence. A second, independent evaluation harness agrees on every row. Separately, a <strong>3 MB frozen-encoder classifier</strong> (bge-small + small heads, 12 seeds) reaches 66/70 = 94.3% and agrees with Jev on <strong>99.39%</strong> of a 2,631-posting production stream at <strong>6 ms/posting, $0/call, offline, deterministically</strong>. Both arms, both corpora, both harnesses and all negative results are published under MIT. We are explicit about the limits: a 70-row evaluation set, two rows of the rarest class, one seed for the LM, and labels produced by a hosted API whose answers are not perfectly deterministic. The point is not a benchmark win. The point is that judgment-as-a-service now has a local price of zero, and that changes which questions you are allowed to ask of data you already own.</div>
+<h2>1. Introduction</h2>
+<p>There is a class of model that does not chat. You hand it a piece of text and a fixed schema — a set of typed questions — and it returns answers with confidences. I will call these <strong>decision models</strong>, and Jev (by TypeSafe) is one: for a job posting it returns a category (<code>service_lead</code>, <code>staff_role</code>, <code>generic_job</code>, <code>junk</code>), five booleans (is there a technical need, is the buyer a business, could a small firm deliver it, is pay stated, is it an evergreen repost), and a 0–4 fit score. It is metered: roughly $0.042 per million input tokens, input-only, and about 245 ms per call.</p>
+<p>I run a small pipeline that watches Saskatchewan job postings. Out of 2,631 postings collected over seven weeks, Jev's classifications reduced a large pile to a worklist of 45 things worth a human look — at a total cost of $0.073. That number is the whole economic story of this paper in miniature: the intelligence was cheap per call, but it was <em>metered</em>, <em>online</em>, and <em>not mine</em>. Metered means every question is a spending decision. Online means the data has to leave the building. Not-mine means the version I depend on can change under me.</p>
+<p>When an artifact claiming to reproduce Jev — for free, locally — went viral in September 2026, that was the important claim to check. So we checked it (§3): the artifact is a decoding trick on a stock 1.5B model, and it reproduces the <em>interface</em> (typed answers, probabilities, one forward pass) while reproducing essentially none of the judgment. Its headline number equals the majority-class prior of the set it was measured on.</p>
+<p>This paper reports what we built instead. Two local reproductions, both trained on Jev's own answers, both published:</p>
+<ul>
+<li><strong>The LM arm (§4).</strong> A 0.5B instruct model with a LoRA adapter — 2.16M trainable parameters — trained 400 steps in 89 minutes on a CPU-only host, reaching 92.9% on the hand-labelled gold set and 95.7% bucket agreement with Jev itself.</li>
+<li><strong>The classifier arm (§5).</strong> A frozen <code>bge-small-en-v1.5</code> encoder with small trained heads, 3 MB on disk, which runs in 6 ms per posting with numpy only, reaches 94.3% on the same gold set, and agrees with Jev on 99.39% of the entire production stream.</li>
+</ul>
+<figure><img src="figs/fig3_pipeline.svg" alt="fig3_pipeline"><figcaption><strong>Figure 1.</strong> Both arms, end to end. Top: the LM arm answers the typed schema through constrained decoding. Bottom: the classifier arm answers it through frozen embeddings and small heads. Both were trained only on Jev's own answers; both run offline on CPU.</figcaption></figure>
+
+<p>Alongside the results we publish the things that did not work (§6), the ways this evaluation could flatter us (§7), and what becomes possible at a marginal price of zero (§8). Everything — corpora, code, weights, logs, the honest ledger of failed approaches — is in the two repositories, MIT-licensed.</p>
+<h2>2. Task, evaluation set, and why the numbers are comparable</h2>
+<p><strong>The interface.</strong> Every arm in this paper is scored on the same question: given a posting's title, employer, pay string and location, output the category. We report <strong>bucket accuracy against 70 hand labels</strong> as the headline, with per-class recall, because the classes are wildly imbalanced and accuracy alone hides exactly the failure that matters.</p>
+<p><strong>The gold set.</strong> 70 postings (the same stream, hand-labelled by one annotator, disjoint from all training data — audited, see §4.3). Its composition is the composition of the stream: <strong>54 <code>generic_job</code>, 14 <code>staff_role</code>, 2 <code>service_lead</code></strong>, 0 <code>junk</code>. Two consequences follow immediately, and they bind everything below:</p>
+<ol>
+<li>A model that always answers <code>generic_job</code> scores 54/70 = <strong>77.14%</strong>. That is the floor, and it is a high floor.</li>
+<li>Recall on <code>service_lead</code> — the rare, commercially decisive class — is measured across <em>two rows</em>. Any service_lead recall figure in this paper is one coin flip wide. We report it anyway, because hiding it would be worse.</li>
+</ol>
+<p><strong>Baselines.</strong> The hosted model itself, Jev, scores <strong>68/70 = 97.1%</strong> on this set. The untrained 0.5B base scores <strong>51/70 = 72.9%</strong> — below the always-generic prior, because the few non-generic answers it volunteers are wrong (0/2 and 0/14 recall on the two rare classes).</p>
+<h2>3. What the viral artifact actually reproduced</h2>
+<p>The artifact in question applies <strong>parallel constrained decoding</strong> to stock <code>Qwen2.5-1.5B-Instruct</code>: candidate strings for each field are scored in a single forward pass and the argmax is returned. Its published weights contain zero weight bytes. Run on the same 70 rows, through the same prompt shape it ships:</p>
+<table>
+<thead>
+<tr>
+<th>measure</th>
+<th>viral artifact (stock 1.5B + constrained decoding)</th>
+<th>Jev (hosted)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bucket accuracy vs hand labels</td>
+<td><strong>77.1%</strong> (54/70)</td>
+<td><strong>97.1%</strong> (68/70)</td>
+</tr>
+<tr>
+<td>majority-class rate of this set</td>
+<td><strong>77.14%</strong> (54/70)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>bucket agreement with Jev</td>
+<td>78.6%</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>service_lead</code> recall</td>
+<td>0/2</td>
+<td>1/2</td>
+</tr>
+<tr>
+<td><code>staff_role</code> recall</td>
+<td>3/14</td>
+<td>13/14</td>
+</tr>
+<tr>
+<td>mean bucket confidence</td>
+<td>0.610</td>
+<td>0.956</td>
+</tr>
+<tr>
+<td>Brier score (4-class)</td>
+<td>0.359</td>
+<td>0.058</td>
+</tr>
+<tr>
+<td>fit-field correlation</td>
+<td>r = 0.09</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Two readings of the 77.1% matter. The charitable one: constrained decoding on a 1.5B model is a real engineering trick — it produces a valid schema cheaply, and schema validity is genuinely worth something. The literal one: <strong>77.1% is what you get for free by always answering <code>generic_job</code></strong>, and the measured model is within a rounding error of that floor. Its errors are not random: 10 of its 16 errors are technical employee seats (Data Architect, Network &amp; Server Analyst, Application Analyst, Data Modeler, IT Senior Analyst) read as plain jobs, both true <code>service_lead</code>s missed, and three false positives in the other direction (a Welder and Carpenters read as <code>staff_role</code>; a Director of Engineering read as <code>service_lead</code>). It has no working notion of <em>a business buying technical work</em> — the single distinction the exercise exists to make.</p>
+<figure><img src="figs/fig1_ladder.svg" alt="fig1_ladder"><figcaption><strong>Figure 2.</strong> The ladder. Bucket accuracy against 70 hand-labelled postings. The dashed line is the majority-class rate of the evaluation set (54/70) — the score of a model that always answers <code>generic_job</code>.</figcaption></figure>
+
+<p>Its "calibrated confidences" are softmax over candidate first-token logits at one position, with no calibration training; on this set they are much less informative than Jev's (Brier 0.359 vs 0.058) and they are <em>over</em>confident exactly where the model is wrong.</p>
+<p>Community benchmarks agree on the shape of this. An honest laptop benchmark ("jev-on-a-laptop", Qwen 7B/8B) reached <strong>73.8%</strong> agreement with Jev; the LFM2.5 decoding-only artifacts sit near <strong>~60%</strong> field accuracy. Jev's 97.1% is not explained by "small model plus a decoding trick". It is the judgment, and judgment has to be trained.</p>
+<h2>4. The LM arm: 0.5B parameters, Jev's own answers, one night</h2>
+<h3>4.1 A first attempt that taught us the actual constraint</h3>
+<p>The first overnight corpus was generated by a large model asked to <em>simulate</em> job postings and their answers. It was 2,437 rows, 70% of them <code>generic_job</code>, with <code>service_lead</code> at 0.5%. Training on it (420 steps, 90 minutes) produced a model that learned exactly what it was shown: 90.0% accuracy, 54/54 on the majority class, 9/14 on <code>staff_role</code>, <strong>0/2 on <code>service_lead</code></strong>. The problem was never the optimizer. <strong>A corpus's class balance is a model's behaviour</strong>, and synthetic labels only carry the judgment to the extent the generator agreed with Jev — which we measured, on a hard-case set, at 87.7% (842/960).</p>
+<h3>4.2 The corpus that worked: Jev labelling Jev</h3>
+<p>The shipped corpus is 2,591 training rows and 286 dev rows, every one of them a real posting, <strong>every target the actual API answer from Jev</strong>, requested with a fixed schema and stored byte-for-byte. Class balance: 958 <code>staff_role</code>, 1,088 <code>generic_job</code>, <strong>342 <code>service_lead</code></strong>, 203 <code>junk</code>. A separate 960-row hard-case set (ambiguous technician titles, agency reposts, missing pay) was labelled the same way for development. Total labelling spend: under five cents.</p>
+<h3>4.3 Corpus verification before training</h3>
+<p>A corpus you have not audited is a claim, not a dataset. Before training we ran an automated audit (<code>verify_corpus.py</code>): every row's target is byte-identical to the stored API response; prompts are well-formed; IDs are unique; the gold set is disjoint from training; and no training row shares a (title, employer) pair with a gold row. The shipped corpus passes <strong>13/13</strong>. The audit is also how we found that the <em>first</em> corpus leaked: 6 training rows shared (title, employer) with 4 gold rows. That run's clean-subset score excluding the contaminated gold rows is reported alongside its raw score (§6), because a contaminated number that only ever gets reported as contamination-free is exactly how benchmarks rot.</p>
+<h3>4.4 Training</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base</td>
+<td><code>Qwen2.5-0.5B-Instruct</code> (frozen; LoRA only)</td>
+</tr>
+<tr>
+<td>adapter</td>
+<td>r = 16, α = 32, q/k/v/o projections, dropout-free</td>
+</tr>
+<tr>
+<td>trainable parameters</td>
+<td><strong>2,162,688</strong></td>
+</tr>
+<tr>
+<td>data</td>
+<td>2,591 rows, mean 126 tokens, p95 137, cap 192</td>
+</tr>
+<tr>
+<td>batch / lr</td>
+<td>6 / 1.5e-4 OneCycle</td>
+</tr>
+<tr>
+<td>steps</td>
+<td>400</td>
+</tr>
+<tr>
+<td>wall clock</td>
+<td><strong>89.3 minutes</strong> (3 supervised chunks; 4:18 → 5:48)</td>
+</tr>
+<tr>
+<td>host</td>
+<td>6 vCPU, CPU only, no CUDA, ~6 GB RSS</td>
+</tr>
+<tr>
+<td>loss</td>
+<td>0.6792 → 0.0468 (mean of last 10: 0.0253)</td>
+</tr>
+</tbody>
+</table>
+<p>An earlier feasibility estimate in the classifier arm's ledger said LoRA on this host was ~10 hours per epoch and therefore infeasible. That estimate was wrong — it came from a misconfigured throughput measurement before the LoRA path was fixed. With the fix, the full run above is what an overnight budget buys. (The ledger entry has been corrected in the repository; we note it here because a published negative result that later becomes a positive one should be corrected loudly.)</p>
+<h3>4.5 Evaluation: two harnesses, on purpose</h3>
+<p>Both harnesses score the same adapter on the same 70 rows and were written independently:</p>
+<ul>
+<li><strong>Method A — parallel constrained decoding</strong> (<code>eval_openjev.py</code>): candidates for each field are scored in one batched forward pass; multi-token labels are ranked by full-string log-likelihood; argmax wins.</li>
+<li><strong>Method B — staged whole-candidate likelihood scoring</strong> (<code>eval_likelihood.py</code>): a separate implementation that scores complete candidate answers field by field, with its own ranking code.</li>
+</ul>
+<p>Results:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Method A</th>
+<th>Method B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bucket accuracy vs gold</td>
+<td><strong>65/70 = 92.9%</strong></td>
+<td><strong>65/70 = 92.9%</strong></td>
+</tr>
+<tr>
+<td>bucket agreement with Jev's own answers</td>
+<td>—</td>
+<td>95.7%</td>
+</tr>
+<tr>
+<td><code>service_lead</code> / <code>staff_role</code> / <code>generic_job</code> recall</td>
+<td>1/2 / 12/14 / 52/54</td>
+<td>agrees row-for-row</td>
+</tr>
+<tr>
+<td>mean bucket confidence</td>
+<td><strong>0.945</strong> (Jev: 0.956; stock 1.5B: 0.610)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>The two harnesses agreeing on every row is the point of running two: the headline does not depend on one implementation's candidate handling. Method B also contains a third variant — scoring 12 complete answer strings jointly (<code>enum12</code>) — whose harness returned <code>null</code> for every row before its run deadline. <strong>It is reported as not run, and not cited.</strong> One number we do not have is better than one number we cannot defend.</p>
+<h3>4.6 Where the LM arm's four errors are</h3>
+<p>The LM arm's misses are one <code>service_lead</code> read as <code>generic_job</code>, two <code>staff_role</code>s read as <code>generic_job</code>, and one <code>generic_job</code> read as <code>staff_role</code>. For context, the classifier arm's four misses are three of the same <code>staff_role</code>-as-generic shape and the same <code>service_lead</code> row. That row — a small business posting for a solo web developer — is the one row in 70 where both open models fail and Jev succeeds. It is, of course, exactly the row a lead-generation pipeline exists to catch.</p>
+<h2>5. The classifier arm: 3 MB, 6 milliseconds, 99.39% agreement</h2>
+<p>The second arm (<code>github.com/DECRUX9812/openjev</code>) abandons generation entirely. A frozen <code>bge-small-en-v1.5</code> encoder embeds the posting; small MLP heads predict the bucket, the five booleans and the fit score; <strong>12 seeds are ensembled</strong>. Training takes minutes on CPU; inference is numpy and <code>fastembed</code> with no torch in the path at all. Weights: 3 MB. Warm inference: <strong>6.0 ms per posting</strong>, deterministic and offline.</p>
+<ul>
+<li><strong>66/70 = 94.3%</strong> against the same 70 hand labels (hosted Jev: 68/70 = 97.1%). Per-class: <code>staff_role</code> 12/14, <code>generic_job</code> 54/54, <code>service_lead</code> 0/2.</li>
+<li><strong>Agreement with Jev on the full production stream: 2,615/2,631 = 99.39%.</strong></li>
+<li>Live A/B on unseen traffic (a separate harness, classifier vs hosted Jev, same postings): <strong>106/106</strong> bucket-and-tier agreement on 106 postings pulled the same morning, and <strong>104/107 = 97.2%</strong> on a deliberately boundary-heavy cross-region slice of technical-signal postings — where the disagreements are informative (ambiguous technician titles, an <code>#sksupportsukraine</code> repost that Jev correctly flags as evergreen).</li>
+<li>A full-archive sweep — every one of <strong>2,844</strong> postings ever collected, re-classified — takes <strong>18 seconds</strong> and <strong>$0</strong>.</li>
+</ul>
+<p>Where it fails mirrors the LM arm, and is the honest headline of this paper: <strong>the rarest class is the one no open arm reproduces yet.</strong> Both arms miss the single true <code>service_lead</code>/PITCH posting in the entire archive; the 2-row gold coverage makes service_lead recall a coin flip for everyone except Jev (which gets 1/2). Fixing that is a data problem — find and label more service_leads — not a modelling problem, and we say so in the repository's model card.</p>
+<h2>6. Negative results</h2>
+<p>Everything below is in the repositories with its numbers, because the differences between attempts are the interesting part:</p>
+<table>
+<thead>
+<tr>
+<th>attempt</th>
+<th>result</th>
+<th>verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>synthetic postings + labels (2,437 rows)</td>
+<td>92.9% raw but 0/2 service_lead; genuinely skewed</td>
+<td>excluded — class balance is behaviour</td>
+</tr>
+<tr>
+<td>add synthetic data in mixtures to real data</td>
+<td>66/70 → 61–63/70 (worst: 39/70)</td>
+<td>excluded — actively harmful</td>
+</tr>
+<tr>
+<td>kNN over embeddings, and kNN-blend with heads</td>
+<td>kNN alone 60/70; blend 62/70 (broke rows the head had right)</td>
+<td>excluded</td>
+</tr>
+<tr>
+<td>TF-IDF + linear (unweighted / class-balanced)</td>
+<td>56/70 / 62/70</td>
+<td>excluded — far below 66/70</td>
+</tr>
+<tr>
+<td>multi-task aux labels (share trunk with booleans+fit)</td>
+<td>66/70 — same four misses</td>
+<td>no gain</td>
+</tr>
+<tr>
+<td>larger encoder (<code>bge-base</code>)</td>
+<td>66/70 dev-tuned; a raw 67/70 happened but does not survive tuning</td>
+<td>not claimed</td>
+</tr>
+<tr>
+<td>encoder blend in logit space</td>
+<td>dev tuning chose weight 0.0 on the small model</td>
+<td>no gain</td>
+</tr>
+<tr>
+<td><code>enum12</code> joint-answer scoring for the LM</td>
+<td>harness returned nulls; not run</td>
+<td>not cited</td>
+</tr>
+</tbody>
+</table>
+<p>Two patterns. First, <strong>bigger is not better here</strong> — a frozen small encoder with 12 seeds beat both a 12× larger encoder and a LoRA'd LM on this task, and beat every retrieval or linear variant by 4+ points. Second, <strong>data beats method</strong>: the entire difference between 90.0% and 92.9% was replacing a skewed simulated corpus with a balanced corpus of Jev's real answers.</p>
+<h2>7. Limits, and how this evaluation could flatter us</h2>
+<p>These are load-bearing caveats, not modesty:</p>
+<ol>
+<li><strong>The gold set is 70 rows with 2 <code>service_lead</code>s.</strong> Both open arms' service_lead recall is one row wide. All accuracy figures carry ±~5 points of binomial noise at this n.</li>
+<li><strong>One stream, one domain, one region.</strong> Every posting is Regina, Saskatchewan, collected over seven weeks. Neither arm has been tested elsewhere; do not assume the 99.39% agreement number transfers to other text.</li>
+<li><strong>One seed for the LM.</strong> The classifier arm ensembles 12 seeds and reports single-seed ranges; the LM ran once. Its 92.9% could plausibly move a row or two on a different seed.</li>
+<li><strong>Labels come from a hosted API that is not perfectly deterministic.</strong> Repeated identical calls to Jev return slightly different numbers (e.g. fit 2.49 / 2.37 / 2.28 across three draws). Our bucket labels were stable, but "agreement with Jev" is agreement with a distribution's mode, not a constant. We also cannot rule out upstream model updates between labelling and evaluation.</li>
+<li><strong>The clean-subset discipline.</strong> The first LM corpus leaked 6 rows / 4 gold pairs; the affected numbers are reported both raw and clean, and the leak is documented. The shipped corpus passes a 13/13 audit, and the audit script is published so the claim is checkable.</li>
+<li><strong>Distillation, ethics, and terms.</strong> Both arms are trained on outputs obtained from TypeSafe's public API. No Jev weights were used, no weights are redistributed, and this is an independent research workalike with no affiliation with or endorsement from TypeSafe. Anyone republishing derived weights commercially should read TypeSafe's terms first; we publish our code and data as research artifacts under MIT and will happily adjust if the upstream authors object to any part of it.</li>
+<li><strong>The 0.5B was chosen for the CPU, not for the ceiling.</strong> Nothing here says a 3B or 7B base on a real GPU couldn't pass hosted Jev on this task. It says a 0.5B on a borrowed laptop gets 95% of the way there for $0, and the rest of the distance is somebody's GPU weekend.</li>
+</ol>
+<h2>8. Why zero is a different number: dark data</h2>
+<p>At $0.042 per million input tokens, hosted judgment is already cheap: the whole 2,631-posting stream cost <strong>$0.073</strong> to classify, 245 ms per call. If the story were only about money, it would be over before it started. Three properties change at a local marginal price of zero, and none of them is the pennies:</p>
+<p><strong>No spending decision.</strong> A metered model forces you to decide, per question, whether the answer is worth paying for. You pre-filter, you sample, you don't ask about the boring rows — and the boring rows are where surprises live. A $0 classifier lets you classify <em>everything</em>, every night, forever, and look at the diffs. The nightly sweep of our entire 2,844-posting archive takes 18 seconds behind a cron line nobody has to think about.</p>
+<p><strong>Offline and private.</strong> Postings are public; most dark data is not. Contracts, tickets, medical notes, support transcripts — the analysis that matters is exactly the analysis you cannot send to somebody's API. A 3 MB model that runs in 6 ms on the box where the data already sits has no such constraint.</p>
+<p><strong>Deterministic and auditable.</strong> The classifier's outputs are byte-identical across reruns; a decision made in March re-derives in September. Hosted answers drift between calls, and hosted versions drift between releases. For anything that looks like a pipeline (leads, triage, routing), reproducibility is not pedantry — it is the ability to answer "why did this row get that label" six months later.</p>
+<p>Put together, these change the set of questions you are allowed to ask. Not "which 5% of my data should I spend meter time on", but "what does the whole corpus look like this week versus last week, and which employers have posted the same technical role every three weeks for a year". That second question — the repost pattern, the buying signal buried in 2,844 rows — is invisible if each row was a spending decision and free if it wasn't. The unlock is not cheaper intelligence. It is the habit change that cheaper intelligence permits: <em>analyze all of it</em>.</p>
+<h2>9. Reproducibility</h2>
+<p>Everything needed to re-derive every number above:</p>
+<table>
+<thead>
+<tr>
+<th>artifact</th>
+<th>where</th>
+<th>receipt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LM arm code + corpus</td>
+<td><code>github.com/DECRUX9812/openjev-lm</code></td>
+<td><code>openjev/{train_v2.py,eval_openjev.py,eval_likelihood.py,verify_corpus.py}</code></td>
+</tr>
+<tr>
+<td>LM adapter (25 MB)</td>
+<td><code>huggingface.co/{HF_USER}/openjev-0.5b</code></td>
+<td><code>adapter.pt</code> sha256 (first 16) <code>e49b717438fa54ea</code></td>
+</tr>
+<tr>
+<td>corpus</td>
+<td>same repo + HF datasets</td>
+<td><code>train_jev.jsonl</code> sha256 <code>77b33e573c1b46fa</code> (2,591 rows), <code>eval_gold.jsonl</code> sha256 <code>55cf245e916f6fd8</code> (70 rows)</td>
+</tr>
+<tr>
+<td>classifier arm + weights</td>
+<td><code>github.com/DECRUX9812/openjev</code></td>
+<td>weights sha256 <code>bucket_head.npz 6ed660ee9e687d35</code>, <code>aux_heads.npz adfe0f29da5801aa</code></td>
+</tr>
+<tr>
+<td>all eval outputs</td>
+<td>both repos, <code>runs/</code></td>
+<td><code>eval_A_run-final.json</code>, <code>eval_B_run-final.json</code>, <code>eval_baseline.json</code>, <code>eval_lora_final_420.json</code>, <code>eval_snap0405.json</code></td>
+</tr>
+<tr>
+<td>corpus audit</td>
+<td>both repos</td>
+<td><code>runs/VERIFY.md</code> (13/13), <code>runs/AUDIT-DATA.md</code> (the 6-row leak, both corpora)</td>
+</tr>
+<tr>
+<td>the numbers page</td>
+<td>both repos</td>
+<td><code>runs/FACTS.md</code> — generated from the raw run files, the single source every claim in this paper is checked against</td>
+</tr>
+</tbody>
+</table>
+<p>The quickstart is one page: environment (Python 3.12, torch CPU, transformers), download the base model, train (<code>run_training.sh run-final 400 25 6</code>), evaluate (<code>eval_openjev.py</code> → expect 65/70). Total compute to reproduce from scratch: under two hours of a 6-vCPU box and about five cents of API labelling.</p>
+<h2>10. Conclusion</h2>
+<p>A viral artifact claimed that a decoding trick on a stock 1.5B model reproduces Jev. Measured: 77.1%, which is the majority-class prior of the benchmark it was measured on, with zero recall on the rare class that motivates the whole task. So we did the actual work overnight: 2.16M LoRA parameters on a 0.5B model trained on 2,591 rows of Jev's own answers, 89 minutes on six CPU cores, reaching <strong>92.9%</strong> of Jev's judgment on a hand-labelled set where Jev scores 97.1%; and a 3 MB frozen-encoder classifier reaching <strong>94.3%</strong> with <strong>99.39%</strong> agreement with Jev across a 2,631-posting production stream at 6 ms per call. Both are MIT, with corpora, harnesses, audit scripts, and negative results attached.</p>
+<p>The honest residue: the rarest class is not yet reproduced (two rows of evidence), the evaluation is one domain and one annotator, and a 0.5B on a CPU is a deliberate floor, not a ceiling. But the direction of the result is not in doubt. Judgment-as-a-service has a zero-cost local alternative that gets you most of the way — and at zero, you stop sampling your data and start reading all of it.</p>
+<hr />
+<p><em>Jev is a product of TypeSafe; this work is independent, unaffiliated, and based solely on answers obtained through their public API. Corpora and weights are published under MIT for research use; respect the upstream terms if you build on them.</em></p>
+<h2>Appendix A — the seven questions</h2>
+<p>Each posting yields one JSON object: <code>bucket</code> ∈ {<code>service_lead</code>, <code>staff_role</code>, <code>generic_job</code>, <code>junk</code>}; booleans <code>technical_need</code>, <code>business_buyer</code>, <code>small_firm_doable</code>, <code>pay_stated</code>, <code>evergreen_repost</code>; and <code>fit</code> ∈ 0–4 ("would a small technical firm get paid work out of this"). The prompt template, candidate sets, and decoders are in <code>openjev/dataset.py</code> and <code>openjev/eval_openjev.py</code>.</p>
+<h2>Appendix B — evaluation-set composition and per-class results</h2>
+<table>
+<thead>
+<tr>
+<th>class</th>
+<th>n in gold</th>
+<th>Jev recall</th>
+<th>LM arm recall</th>
+<th>classifier recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>generic_job</code></td>
+<td>54</td>
+<td>54/54</td>
+<td>52/54</td>
+<td>54/54</td>
+</tr>
+<tr>
+<td><code>staff_role</code></td>
+<td>14</td>
+<td>13/14</td>
+<td>12/14</td>
+<td>12/14</td>
+</tr>
+<tr>
+<td><code>service_lead</code></td>
+<td>2</td>
+<td>1/2</td>
+<td>1/2</td>
+<td>0/2</td>
+</tr>
+<tr>
+<td><code>junk</code></td>
+<td>0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>total</strong></td>
+<td><strong>70</strong></td>
+<td><strong>68/70 = 97.1%</strong></td>
+<td><strong>65/70 = 92.9%</strong></td>
+<td><strong>66/70 = 94.3%</strong></td>
+</tr>
+</tbody>
+</table>
+<figure><img src="figs/fig2_perclass.svg" alt="fig2_perclass"><figcaption><strong>Figure 3.</strong> Per-class recall on the same 70 rows. The whole difficulty of this task lives in the two middle bars of the left pair.</figcaption></figure>
+
+<p>Viral artifact for reference: 54/70 = 77.1% (0/2, 3/14, 51/54 on the same classes). Untrained 0.5B base: 51/70 = 72.9%.</p></div></body></html>

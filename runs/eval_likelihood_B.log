@@ -1,0 +1,19 @@
+[03:22:21] === runner start (pid 2453826) deadline 07:52 ===
+[03:22:22] smoke: attempt 1/6 waiting up to 15min for lock
+[03:25:46] === runner start pid=2465563 deadline=07:55 ===
+[03:25:46] smoke: attempt 1/6 (args: --limit 8)
+[03:30:30] watcher start; waiting for runner exit
+[03:40:47] smoke: attempt 1 failed/lock-busy after 900s; retry in 60s
+[03:41:47] smoke: attempt 2/6 (args: --limit 8)
+[03:56:47] smoke: attempt 2 failed/lock-busy after 900s; retry in 60s
+[03:57:47] smoke: attempt 3/6 (args: --limit 8)
+[04:12:47] smoke: attempt 3 failed/lock-busy after 900s; retry in 60s
+[04:13:47] smoke: attempt 4/6 (args: --limit 8)
+[04:28:47] smoke: attempt 4 failed/lock-busy after 900s; retry in 60s
+[04:29:47] smoke: attempt 5/6 (args: --limit 8)
+[04:44:47] smoke: attempt 5 failed/lock-busy after 900s; retry in 60s
+[04:45:47] smoke: attempt 6/6 (args: --limit 8)
+[05:00:47] smoke: attempt 6 failed/lock-busy after 900s; retry in 60s
+[05:01:47] smoke: EXHAUSTED 6 attempts
+[05:01:47] base: attempt 1/12 (args: --no-enum --tag untrained-base)
+[05:16:47] base: attempt 1 failed/lock-busy after 900s; retry in 60s
