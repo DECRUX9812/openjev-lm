@@ -1,3 +1,4 @@
+hf/staging/
 *.pyc
 __pycache__/
 .venv/
