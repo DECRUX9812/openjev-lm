@@ -30,8 +30,9 @@ launch page with figures and the full thread: [decrux9812.github.io/openjev-lm](
 | untrained 0.5B base | 51/70 = 72.9% | 0/2 · 0/14 · 51/54 | below the prior |
 
 On **106 postings that arrived after training** (never seen by the model), the adapter agrees with
-hosted Jev on **104/106 = 98.1%** — both misses are published, one of them a confident error
-(`verify/live/fresh_106.jsonl`). The classifier arm scores 106/106 on the same set.
+hosted Jev on **104/106 = 98.1%**, with mean confidence 0.979, ECE 0.004 and Brier 0.031 — both
+misses are published, one of them a confident error (`verify/live/fresh_106.jsonl`). The classifier
+arm scores 106/106 on the same set.
 
 Two independently written harnesses score this run — the first against the step-386 snapshot, the
 second against the released step-400 adapter — and both land on **65/70 = 92.9%** with identical

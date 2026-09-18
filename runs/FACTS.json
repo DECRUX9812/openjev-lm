@@ -30,9 +30,19 @@
    "lm_vs_hosted_106_unseen": {
     "n": 106,
     "agree": 104,
-    "pct": 98.1
+    "pct": 98.1,
+    "mean_bucket_confidence": 0.9788,
+    "ece_5bin": 0.0037,
+    "brier_4class": 0.0307
    },
    "note": "106 postings that arrived after the training corpus was built; gold column = Jev's own hosted answer (agreement test)"
+  },
+  "calibration_on_gold": {
+   "viral_brier_4class": 0.359,
+   "viral_ece_5bin": 0.157,
+   "jev_brier_4class": 0.058,
+   "jev_ece_5bin": 0.097,
+   "source": "../REPORT.md (viral teardown table)"
   },
   "community_benchmarks": {
    "jev_on_a_laptop_agreement_pct": 73.8,

@@ -74,6 +74,7 @@ The second arm is the one you'd actually deploy: a 3 MB frozen-encoder classifie
 Tested on live traffic, not just a frozen benchmark:
 
 - 106 fresh unseen postings: LM arm 104/106 (98.1%), classifier 106/106 vs hosted Jev
+- calibration on that unseen set: ECE 0.004, Brier 0.031 (the viral artifact: Brier 0.359)
 - 107-postion cross-region boundary slice: 104/107
 - whole 2,844-posting archive re-classified: 18 seconds, $0
 

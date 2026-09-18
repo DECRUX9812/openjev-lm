@@ -34,7 +34,7 @@ live: LM vs hosted Jev, 106 fresh                104/106 agree                  
 | classifier 66/70 = 94.3% | `predictions/classifier.jsonl` | regenerated from the classifier repo (`DECRUX9812/openjev`) |
 | Jev itself 68/70 = 97.1% | `predictions/jev_reference.jsonl` | Jev's own answers for the same rows, as stored |
 | 99.39% agreement on 2,631 production postings | `DECRUX9812/openjev` → `results/openjev_results.json` | the classifier repo's own receipt |
-| live: classifier 106/106, 104/107; LM 104/106 vs hosted Jev | `live/fresh_106.jsonl`, `live/boundary_107.jsonl`, `live/lm_fresh_106.json` | unseen postings, side-by-side hosted vs local decisions; reports in `live/*.md` |
+| live: classifier 106/106, 104/107; LM 104/106 vs hosted Jev | `live/fresh_106.jsonl`, `live/boundary_107.jsonl`, `live/lm_fresh_106.json` | unseen postings, side-by-side hosted vs local decisions; calibration in `lm_fresh_106.json` metrics (ECE 0.004, Brier 0.031); reports in `live/*.md` |
 | the archive sweep (2,844 postings, 18 s) | `live/dark_sweep.jsonl` + `live/dark_sweep_report.md` | every row's decision + confidence |
 
 Everything joins on the posting `id` (saskjobs job ids), so you can pull any row and read the
