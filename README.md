@@ -93,3 +93,32 @@ never produced usable answers and is reported as *not run*, not as a score. Full
 classifier repo `docs/approaches-tried.md`.
 
 MIT · Ritesh Patel (DECRUX9812) · September 2026
+
+## jevgraphic — prompt-to-poster studio gated by Jev
+
+`jevgraphic/` is the "Canva + Jev" surface: type an idea, and Jev decides once —
+the gate verifies every number on the canvas **verbatim** against an evidence
+document, then picks the layout, style pack and art archetype. After that single
+pass every click is a data-only re-render at **$0.000000**.
+
+```bash
+# prompt -> gated poster (SVG + PNG, + gate/decision receipts)
+python3 -m jevgraphic.cli make "open-Jev: local judgment at \$0" \
+    --evidence paper/openjev-paper.md --out out/demo --png
+
+# interactive studio — claim rail, 14 style packs, 9 layouts, export PNG
+python3 -m jevgraphic.cli edit draft.md --evidence paper/openjev-paper.md --port 8791
+
+# gate only — prints the receipt, lists refused claims on stderr
+python3 -m jevgraphic.cli gate draft.md --evidence paper/openjev-paper.md
+```
+
+![example poster](jevgraphic/examples/openjev-poster.png)
+
+- **Gate:** local verbatim verification by default (`$0.000000`, ~8 ms); hosted Jev
+  plugs in via `JEV_API_URL` + `JEV_API_KEY`. A claim carrying a number that is not
+  in the evidence is *refused*, never edited — test-locked in `jevgraphic/tests/`.
+- **Styles** (14) and **layouts** (9) are pure data — swapping them calls no model.
+- **Art** is seeded procedural SVG (12 archetypes, engraving/ukiyo/pixel register)
+  plus an image shelf with `PROVENANCE.json` — nothing is invented.
+- Dependency-free, stdlib only: `python3 -m unittest discover -s jevgraphic/tests`.

@@ -15,3 +15,5 @@ jobs:
           python-version: "3.11"
       - name: Re-derive every headline number from the published receipts
         run: python3 verify/score.py --self-test
+      - name: jevgraphic gate invariants (refused numbers never render)
+        run: python3 -m unittest discover -s jevgraphic/tests
