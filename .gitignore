@@ -10,5 +10,5 @@ runs/run-final/chunk*.log
 .ipynb_checkpoints/
 .DS_Store
 models/
-openjev/runs/
 runs/retrain-check.out
+openjev/runs/*/adapter*.pt
