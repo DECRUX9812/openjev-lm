@@ -1,0 +1,12 @@
+{
+ "model": "/Users/devin/repos/openjev-lm/models/Qwen2.5-0.5B-Instruct",
+ "run_name": "rl1",
+ "algo": "grpo",
+ "steps_done": 60,
+ "beta": 0.04,
+ "k": 8,
+ "temperature": 1.0,
+ "lr": 1e-05,
+ "init": "openjev/runs/sft-warm/adapter.pt",
+ "wall_min": 13.2
+}

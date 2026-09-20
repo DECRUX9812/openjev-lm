@@ -1,0 +1,18 @@
+{
+ "model": "models/Qwen2.5-0.5B-Instruct",
+ "run_name": "sft-warm",
+ "steps_done": 150,
+ "target_total": 150,
+ "batch": 6,
+ "lr": 0.00015,
+ "rank": 16,
+ "alpha": 32,
+ "max_len": 192,
+ "trainable_params": 2162688,
+ "train_file": "data/train_jev.jsonl",
+ "first_loss": 0.6791394948959351,
+ "last_loss": 0.039669208228588104,
+ "mean_loss_last10": 0.025736647285521032,
+ "wall_min": 4.9,
+ "stop_reason": "target-steps"
+}

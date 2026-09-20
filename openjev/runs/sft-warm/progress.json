@@ -1,0 +1,10 @@
+{
+ "step": 150,
+ "loss": 0.039669208228588104,
+ "train_file": "data/train_jev.jsonl",
+ "batch": 6,
+ "max_len": 192,
+ "rank": 16,
+ "target_total": 150,
+ "saved_at": "2026-09-20T13:22:27"
+}
