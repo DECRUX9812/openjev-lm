@@ -53,6 +53,18 @@ class TestGate(unittest.TestCase):
         self.assertIn("$0", numbers_in("for $0"))
         self.assertIn("2,631", numbers_in("2,631 postings"))
 
+    def test_tokenizer_never_gloms_following_word(self):
+        # regression: "54/54, service" used to yield the token "54, s"
+        toks = numbers_in("staff role 12/14, generic job 54/54, service lead 0/2")
+        self.assertNotIn("54, s", toks)
+        self.assertIn("54", toks)
+
+    def test_comma_list_claim_verifies(self):
+        ev = EVIDENCE + "Per-class: staff role 12/14, generic job 54/54, service lead 0/2."
+        d = parse_draft("# t\n- Per-class: staff role 12/14, generic job 54/54, service lead 0/2.")
+        d, r = LocalGate().decide(d, ev)
+        self.assertEqual(r.kept, 1)
+
 
 if __name__ == "__main__":
     unittest.main()

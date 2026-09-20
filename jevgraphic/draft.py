@@ -16,14 +16,15 @@ from typing import List
 
 from .model import Claim, Draft
 
-NUM_RE = re.compile(r"\$?\d[\d,]*(?:\.\d+)?\s*(?:%|ms|s|MB|GB|KB|x|vCPU|vCPUs|B|M|K|k)?")
+NUM_RE = re.compile(
+    r"\$?\d[\d,]*(?:\.\d+)?\s*(?:%|ms\b|s\b|MB\b|GB\b|KB\b|x\b|vCPUs?\b|B\b|M\b|K\b|k\b)?")
 BULLET_RE = re.compile(r"^\s*[-*•]\s+")
 HEADING_RE = re.compile(r"^\s*#{1,6}\s+")
 
 
 def numbers_in(text: str) -> List[str]:
     """All numeric tokens in a string, normalized (commas kept, unit glued)."""
-    return [m.group(0).strip() for m in NUM_RE.finditer(text)]
+    return [m.group(0).strip().rstrip(",") for m in NUM_RE.finditer(text)]
 
 
 def parse_draft(markdown: str, source: str = "") -> Draft:
