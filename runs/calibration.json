@@ -1,0 +1,12 @@
+{
+  "temperature": 1.0103,
+  "fit_rows": 80,
+  "eval_rows": 70,
+  "field_decisions": 490,
+  "nll_before": 0.1417,
+  "nll_after": 0.1419,
+  "ece_before": 0.0251,
+  "ece_after": 0.026,
+  "adapter_step": 400,
+  "seconds": 332.6
+}
