@@ -84,12 +84,36 @@ and picked up by `serve.py` at boot:
 python openjev/calibrate.py --adapter <adapter.pt> --fit data/dev_jev.jsonl --eval data/eval_gold.jsonl
 ```
 
+## Form specialist (option scorer)
+
+`openjev/forms_scorer.py` vendors the cua-s1 architecture (trycua/cua, MIT; the
+attention head and byte collation were themselves adapted from jevlike
+commit 94f5fd1, MIT, Minimal Labs): a 706k-param byte-level transformer that
+takes a text context plus typed options — `fill Field: value`, `check`,
+`click`, `skip` — and returns one probability per option in a single forward
+pass. No generation, no LLM needed, checkpoint is safetensors + JSON (no pickle).
+
+```bash
+# data: {"context": str, "options": [str, ...], "label": int} per line
+python -m openjev.train_forms train.jsonl --validation val.jsonl --out runs/forms-s1 --epochs 2
+python -m openjev.train_forms --eval test.jsonl --out runs/forms-s1           # model
+python -m openjev.train_forms --eval test.jsonl --out runs/forms-s1 --shuffle-context  # control
+```
+
+Trained on 40k synthetic choice rows on this CPU (~25 min): **top-1 74.6%** on a
+14k-row held-out test, ECE 0.015, vs **35.8%** on the shuffled-context control —
+the model reads the element, not just the options. Receipts in
+`runs/forms-s1/`. The zero-shot contrast is the point of the demo video: the
+0.5B job adapter scores the same options at ~10% — likelihood scoring can't
+read which element is being asked about; the trained head can.
+
 ## What's in the box
 
 ```
 openjev/        code — dataset builder, trainer, two eval harnesses, corpus auditor,
                 labelling tools, API server (serve.py), temperature calibration
-                (calibrate.py), playground UI (playground/)
+                (calibrate.py), playground UI (playground/), byte-level option
+                scorer + trainer for form/UI decisions (forms_scorer.py, train_forms.py)
 data/           train_jev.jsonl (2,591) · dev_jev.jsonl (286) · eval_gold.jsonl (70)
 runs/           every eval output, the corpus audit, the leak audit, FACTS.json + FACTS.md
 docs/           night-report.md — the full engineering log of the run
